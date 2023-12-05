@@ -24,9 +24,6 @@ class Turn:
             "player_answers": self.player_answers,
         }
 
-    def to_json_string(self):
-        return json.dumps(self.to_json())
-
     @staticmethod
     def from_json(json_string):
         parsed_json = json.loads(json_string)

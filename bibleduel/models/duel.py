@@ -1,7 +1,7 @@
 import json
 
-from models.player import Player
-from models.turn import Turn
+from bibleduel.models.player import Player
+from bibleduel.models.turn import Turn
 
 
 class Duel:

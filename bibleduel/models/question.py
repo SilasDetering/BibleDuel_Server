@@ -1,22 +1,20 @@
 import json
+import uuid
 
 
 class Question:
-    def __init__(self, id: int, title: str, category: str, options: list, answer: str):
-        self.id = id
+    def __init__(self, title: str, category: str, options: list, answer: str):
+        self._id = uuid.uuid4().hex
         self.title = title
         self.category = category
         self.options = options
         self.answer = answer
 
-    def to_json(self):
+    def __tojson__(self):
         return {
-            "id": self.id,
+            "id": self._id,
             "title": self.title,
             "category": self.category,
             "options": self.options,
             "answer": self.answer,
         }
-
-    def to_json_string(self):
-        return json.dumps(self.to_json())

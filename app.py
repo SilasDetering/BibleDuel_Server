@@ -1,20 +1,19 @@
-from flask import Flask, jsonify
+from flask import Flask
+from flask_jwt_extended import JWTManager
 from pymongo import MongoClient
-
+from settings import MONGO_URI
 
 app = Flask(__name__)
 app.secret_key = 'secret'
 
 # Database
-client = MongoClient('localhost', 27017)
-db = client.user
+mongoDB = MongoClient(MONGO_URI)["user"]
+jwt = JWTManager(app)
 
 # Routes
-from authentication import routes
+from authentication.auth_routes import register_routes
 
-@app.route('/', methods=['GET'])
-def get_data():
-    return "Home"
+register_routes(app, mongoDB)
 
 if __name__ == '__main__':
     app.run(debug=True)
