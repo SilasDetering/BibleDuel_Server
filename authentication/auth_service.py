@@ -1,9 +1,10 @@
 import os
-from flask import jsonify, request
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask import jsonify
+from flask_jwt_extended import create_access_token
 from passlib.hash import pbkdf2_sha256
 from settings import PEPPER, HASHROUNDS
 from bibleduel.models.user import User
+import re
 
 
 class AuthService:
@@ -15,9 +16,9 @@ class AuthService:
     def generate_salt():
         return os.urandom(16).hex()
 
-    def register(self):
+    def register(self, username, password):
         # Create the user object
-        new_user = User(request.json['username'], request.json['password'], self.generate_salt())
+        new_user = User(username, password, self.generate_salt())
 
         # Verify the user object
         val = new_user.validate()
@@ -29,7 +30,7 @@ class AuthService:
                              .hash(new_user.password + PEPPER))
 
         # Check for existing username
-        if self.db["user"].find_one({"username": new_user.username}):
+        if self.db["user"].find_one( {"username": {"$regex": f'^{re.escape(new_user.username)}$', "$options": "i"}} ):
             return jsonify({"error": "Benutzername existiert bereits"}), 400
 
         if self.db["user"].insert_one(new_user.to_json()):
@@ -42,12 +43,12 @@ class AuthService:
 
         return jsonify({"error": "Registrierung fehlgeschlagen"}), 400
 
-    def login(self):
-
-        username = request.json['username']
-        password = request.json['password']
+    def login(self, username, password):
 
         user = self.db["user"].find_one({"username": username})
+
+        if not user:
+            return jsonify({"error": "Ungültige Anmeldedaten"}), 401
 
         user = User.from_json(user)
 
@@ -61,14 +62,22 @@ class AuthService:
         else:
             return jsonify({"error": "Ungültige Anmeldedaten"}), 401
 
-    @jwt_required
-    def delete_user(self):
-        current_user_id = get_jwt_identity()
-
-        user = self.db["user"].find_one({"_id": current_user_id})
+    def delete_user(self, user_id):
+        user = self.db["user"].find_one({"_id": user_id})
 
         if user:
-            self.db["user"].delete_one({"_id": current_user_id})
+            self.db["user"].delete_one({"_id": user_id})
             return jsonify({"msg": "Benutzer erfolgreich gelöscht"}), 200
         else:
-            return jsonify({"error": "Benutzer konnte nicht gelöscht werden"}), 404
+            response = jsonify({"error": "Benutzer konnte nicht gelöscht werden"})
+            response.status_code = 404
+            return response
+
+    def refresh(self, user_id):
+        user = self.db["user"].find_one({"_id": user_id})
+
+        return jsonify({
+            "msg": "Aktuelles User Objekt",
+            "user": User.from_json(user).to_transmit_json()
+        }), 200
+

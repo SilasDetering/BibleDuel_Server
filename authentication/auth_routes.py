@@ -1,17 +1,34 @@
 from authentication.auth_service import AuthService
+from flask import request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 
 
-def register_routes(app, db):
+def register_auth_routes(app, db):
     auth_service = AuthService(db)
 
     @app.route('/user/register', methods=['POST'])
     def register():
-        return auth_service.register()
+        username = request.json['username']
+        password = request.json['password']
+
+        return auth_service.register(username, password)
 
     @app.route('/user/login', methods=['POST'])
     def login():
-        return auth_service.login()
+        username = request.json['username']
+        password = request.json['password']
+
+        return auth_service.login(username, password)
 
     @app.route('/user/delete', methods=['DELETE'])
+    @jwt_required()
     def delete():
-        return auth_service.delete_user()
+        user_id = get_jwt_identity()
+        print(user_id)
+        return auth_service.delete_user(user_id)
+
+    @app.route('/user/refresh', methods=['GET'])
+    @jwt_required()
+    def refresh():
+        user_id = get_jwt_identity()
+        return auth_service.refresh(user_id)

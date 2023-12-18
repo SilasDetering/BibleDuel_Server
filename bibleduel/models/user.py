@@ -3,6 +3,8 @@ from typing import List
 import uuid
 import re
 
+from bibleduel.models.player import Player
+
 
 class User:
     def __init__(self, username: str, password: str, salt: str):
@@ -10,19 +12,9 @@ class User:
         self.username = username
         self.password = password
         self.salt = salt
-        self.friends = {}
+        self.friends: List[Player] = []
         self.score = 0
         self.role = "user"
-
-    def get_friends(self) -> List[dict]:
-        return list(self.friends.values())
-
-    def add_friend(self, username: str):
-        self.friends[username] = [0, 0, 0]
-
-    def remove_friend(self, username: str):
-        if username in self.friends:
-            del self.friends[username]
 
     @property
     def id(self):
