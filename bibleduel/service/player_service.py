@@ -1,9 +1,6 @@
-import os
 import re
 from flask import jsonify
-
 from bibleduel.models.player import Player
-from bibleduel.models.user import User
 
 
 class PlayerService:

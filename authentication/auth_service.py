@@ -18,7 +18,7 @@ class AuthService:
 
     def register(self, username, password):
         # Create the user object
-        new_user = User(username, password, self.generate_salt())
+        new_user = User.create_new_user(username, password, self.generate_salt())
 
         # Verify the user object
         val = new_user.validate()
@@ -30,10 +30,10 @@ class AuthService:
                              .hash(new_user.password + PEPPER))
 
         # Check for existing username
-        if self.db["user"].find_one( {"username": {"$regex": f'^{re.escape(new_user.username)}$', "$options": "i"}} ):
+        if self.db["user"].find_one({"username": {"$regex": f'^{re.escape(new_user.username)}$', "$options": "i"}}):
             return jsonify({"error": "Benutzername existiert bereits"}), 400
 
-        if self.db["user"].insert_one(new_user.to_json()):
+        if self.db["user"].insert_one(new_user.toJSON()):
             access_token = create_access_token(identity=new_user.id)
             return jsonify({
                 "msg": "Benutzer erfolgreich registriert",
@@ -50,7 +50,7 @@ class AuthService:
         if not user:
             return jsonify({"error": "Ungültige Anmeldedaten"}), 401
 
-        user = User.from_json(user)
+        user = User.fromJSON(user)
 
         if user and pbkdf2_sha256.verify(password + PEPPER, user.password):
             access_token = create_access_token(identity=user.id)
@@ -78,6 +78,5 @@ class AuthService:
 
         return jsonify({
             "msg": "Aktuelles User Objekt",
-            "user": User.from_json(user).to_transmit_json()
+            "user": User.fromJSON(user).to_transmit_json()
         }), 200
-

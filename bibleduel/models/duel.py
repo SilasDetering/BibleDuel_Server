@@ -16,20 +16,21 @@ class Duel:
         self.last_edit = last_edit if last_edit is not None else datetime.now()
         self.created_at = created_at if created_at is not None else datetime.now()
 
-    def _toJSON(self):
+    def toJSON(self):
         return {
             "id": self._id,
-            "players": [player._toJSON() for player in self.players],
+            "players": [player.toJSON() for player in self.players],
             "currentPlayer": self.current_player,
-            "turns": [turn._toJSON() for turn in self.turns],
+            "turns": [turn.toJSON() for turn in self.turns],
             "current_turn": self.current_turn,
         }
 
     @staticmethod
-    def _fromJSON(json_str):
+    def fromJSON(json_str):
         parsed_json = json.loads(json_str)
 
-        players = [Player._fromJSON(json.dumps(player)) for player in parsed_json["players"]]
-        turns = [Turn._fromJSON(json.dumps(turn)) for turn in parsed_json["turns"]]
+        players = [Player.fromJSON(json.dumps(player)) for player in parsed_json["players"]]
+        turns = [Turn.fromJSON(json.dumps(turn)) for turn in parsed_json["turns"]]
 
-        return Duel(parsed_json["id"], players, parsed_json["currentPlayer"], parsed_json["game_state"], turns, parsed_json["current_turn"])
+        return Duel(parsed_json["id"], players, parsed_json["currentPlayer"], parsed_json["game_state"], turns,
+                    parsed_json["current_turn"])

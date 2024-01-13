@@ -12,21 +12,21 @@ class Question:
         self.answer = answer
 
     @staticmethod
-    def _fromJSON(json_str):
+    def fromJSON(json_str):
         parsed_json = json.loads(json_str)
         return Question(
             parsed_json['_id'],
             parsed_json['title'],
-            Category._fromJSON(json.dumps(parsed_json['category'])),
+            Category.fromJSON(json.dumps(parsed_json['category'])),
             parsed_json['options'],
             parsed_json['answer']
         )
 
-    def _toJSON(self):
+    def toJSON(self):
         return json.dumps({
             '_id': self._id,
             'title': self.title,
-            'category': json.loads(self.category._toJSON()),
+            'category': json.loads(self.category.toJSON()),
             'options': self.options,
             'answer': self.answer,
         })

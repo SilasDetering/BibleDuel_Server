@@ -7,9 +7,9 @@ class Category:
         self.color = color
 
     @staticmethod
-    def _fromJSON(json_str):
+    def fromJSON(json_str):
         parsed_json = json.loads(json_str)
         return Category(parsed_json['title'], parsed_json['color'])
 
-    def _toJSON(self):
+    def toJSON(self):
         return json.dumps({'title': self.title, 'color': self.color})

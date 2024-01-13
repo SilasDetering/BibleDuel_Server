@@ -1,5 +1,4 @@
 import json
-import uuid
 
 
 class Player:
@@ -9,7 +8,7 @@ class Player:
         self.score = score
         self.ratio = ratio
 
-    def _toJSON(self):
+    def toJSON(self):
         return {
             "_id": self._id,
             "username": self.username,
@@ -18,10 +17,10 @@ class Player:
         }
 
     def to_json_string(self):
-        return json.dumps(self._toJSON())
+        return json.dumps(self.toJSON())
 
     @staticmethod
-    def _fromJSON(json_string: str):
+    def fromJSON(json_string: str):
         parsed_json = json.loads(json_string)
         return Player(
             parsed_json["_id"],

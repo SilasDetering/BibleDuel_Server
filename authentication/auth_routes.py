@@ -1,6 +1,6 @@
 from authentication.auth_service import AuthService
-from flask import request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
+from flask import request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 def register_auth_routes(app, db):
