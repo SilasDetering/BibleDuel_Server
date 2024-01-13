@@ -1,4 +1,5 @@
 import json
+import uuid
 from datetime import datetime
 
 from bibleduel.models.player import Player
@@ -16,9 +17,13 @@ class Duel:
         self.last_edit = last_edit if last_edit is not None else datetime.now()
         self.created_at = created_at if created_at is not None else datetime.now()
 
+    @staticmethod
+    def create_new_duel(user: Player, opponent: Player):
+        return Duel(uuid.uuid4().hex, [user, opponent], 1, 0, [], 0)
+
     def toJSON(self):
         return {
-            "id": self._id,
+            "_id": self._id,
             "players": [player.toJSON() for player in self.players],
             "currentPlayer": self.current_player,
             "turns": [turn.toJSON() for turn in self.turns],
@@ -32,5 +37,5 @@ class Duel:
         players = [Player.fromJSON(json.dumps(player)) for player in parsed_json["players"]]
         turns = [Turn.fromJSON(json.dumps(turn)) for turn in parsed_json["turns"]]
 
-        return Duel(parsed_json["id"], players, parsed_json["currentPlayer"], parsed_json["game_state"], turns,
+        return Duel(parsed_json["_id"], players, parsed_json["currentPlayer"], parsed_json["game_state"], turns,
                     parsed_json["current_turn"])

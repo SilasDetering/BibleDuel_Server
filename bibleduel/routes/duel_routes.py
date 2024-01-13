@@ -26,8 +26,7 @@ def duel_routes(app, db):
     def update_duel():
         user_id = get_jwt_identity()
         data = request.json
-        duel_data = data.get('duel')
-        duel = Duel.fromJSON(duel_data)
+        duel = data.get('duel')
         return duel_service.update_duel(user_id, duel)
 
     @app.route('/game/duel', methods=['DELETE'])
