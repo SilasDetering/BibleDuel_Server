@@ -1,43 +1,35 @@
 import json
+from datetime import datetime
 
 from bibleduel.models.player import Player
 from bibleduel.models.turn import Turn
 
 
 class Duel:
-    def __init__(self, _id: str, players: list, current_player: int, turns: list, current_turn: int, score: list):
-        self.id = _id
+    def __init__(self, _id, players, current_player, game_state, turns, current_turn, last_edit=None, created_at=None):
+        self._id = _id
         self.players = players
         self.current_player = current_player
+        self.game_state = game_state
         self.turns = turns
         self.current_turn = current_turn
-        self.score = score
+        self.last_edit = last_edit if last_edit is not None else datetime.now()
+        self.created_at = created_at if created_at is not None else datetime.now()
 
-    def to_json(self):
+    def _toJSON(self):
         return {
-            "id": self.id,
-            "players": [player.to_json() for player in self.players],
+            "id": self._id,
+            "players": [player._toJSON() for player in self.players],
             "currentPlayer": self.current_player,
-            "turns": [turn.to_json() for turn in self.turns],
-            "currentTurn": self.current_turn,
-            "score": self.score
+            "turns": [turn._toJSON() for turn in self.turns],
+            "current_turn": self.current_turn,
         }
 
-    def to_json_string(self):
-        return json.dumps(self.to_json())
-
     @staticmethod
-    def from_json(json_string: str):
-        parsed_json = json.loads(json_string)
+    def _fromJSON(json_str):
+        parsed_json = json.loads(json_str)
 
-        players = [Player.from_json(json.dumps(player)) for player in parsed_json["players"]]
-        turns = [Turn.from_json(json.dumps(turn)) for turn in parsed_json["turns"]]
+        players = [Player._fromJSON(json.dumps(player)) for player in parsed_json["players"]]
+        turns = [Turn._fromJSON(json.dumps(turn)) for turn in parsed_json["turns"]]
 
-        return Duel(
-            parsed_json["id"],
-            players,
-            parsed_json["currentPlayer"],
-            turns,
-            parsed_json["currentTurn"],
-            parsed_json["score"]
-        )
+        return Duel(parsed_json["id"], players, parsed_json["currentPlayer"], parsed_json["game_state"], turns, parsed_json["current_turn"])

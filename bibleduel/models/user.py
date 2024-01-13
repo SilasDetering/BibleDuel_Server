@@ -20,28 +20,18 @@ class User:
     def id(self):
         return self._id
 
-    @staticmethod
-    def from_json(json_data):
-        user = User(username=json_data["username"], password=json_data["password"], salt=json_data["salt"])
-        user._id = json_data["_id"]
-        user.friends = json_data["friends"]
-        user.score = json_data["score"]
-        user.role = json_data["role"]
-
-        return user
-
-    def to_json(self):
+    def _toJSON(self):
         return {
-            "_id": self._id,
-            "username": self.username,
+            '_id': self._id,
+            'username': self.username,
             "password": self.password,
             "salt": self.salt,
-            "friends": self.friends,
-            "score": self.score,
-            "role": self.role
+            'friends': [friend._toJSON() for friend in self.friends],
+            'score': self.score,
+            'role': self.role
         }
 
-    def to_transmit_json(self):
+    def _to_transmit_json(self):
         return {
             "_id": self._id,
             "username": self.username,

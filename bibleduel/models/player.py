@@ -3,13 +3,13 @@ import uuid
 
 
 class Player:
-    def __init__(self, _id: uuid, username: str, score: int, ratio: float):
+    def __init__(self, _id, username, score, ratio):
         self._id = _id
         self.username = username
         self.score = score
         self.ratio = ratio
 
-    def to_json(self):
+    def _toJSON(self):
         return {
             "_id": self._id,
             "username": self.username,
@@ -18,10 +18,10 @@ class Player:
         }
 
     def to_json_string(self):
-        return json.dumps(self.to_json())
+        return json.dumps(self._toJSON())
 
     @staticmethod
-    def from_json(json_string: str):
+    def _fromJSON(json_string: str):
         parsed_json = json.loads(json_string)
         return Player(
             parsed_json["_id"],

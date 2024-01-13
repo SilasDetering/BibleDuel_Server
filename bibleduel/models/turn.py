@@ -1,39 +1,28 @@
 import json
 from typing import List, Dict
 
+from bibleduel.models.category import Category
+from bibleduel.models.question import Question
+
 
 class Turn:
-    def __init__(self, questions: List[Dict], category: str):
+    def __init__(self, questions, category, playerAnswers=None):
         self.questions = questions
         self.category = category
-        self.player_answers = {}
+        self.playerAnswers = playerAnswers if playerAnswers is not None else {}
 
-    def get_player_score(self):
-        player_score = {}
-
-        for player, answers in self.player_answers.items():
-            score = sum(1 for answer in answers if answer)
-            player_score[player] = score
-
-        return player_score
-
-    def to_json(self):
+    def _toJSON(self):
         return {
-            "questions": self.questions,
-            "category": self.category,
-            "player_answers": self.player_answers,
+            "questions": [question._toJSON() for question in self.questions],
+            "category": self.category._toJSON(),
+            "playerAnswers": self.playerAnswers
         }
 
     @staticmethod
-    def from_json(json_string):
-        parsed_json = json.loads(json_string)
+    def _fromJSON(json_str):
+        parsed_json = json.loads(json_str)
 
-        questions = parsed_json["questions"]
-        category = parsed_json["category"]
+        questions = [Question._fromJSON(json.dumps(question)) for question in parsed_json["questions"]]
+        category = Category._fromJSON(json.dumps(parsed_json["category"]))
 
-        turn = Turn(questions, category)
-
-        if "player_answers" in parsed_json and isinstance(parsed_json["player_answers"], dict):
-            turn.player_answers = parsed_json["player_answers"]
-
-        return turn
+        return Turn(questions, category, parsed_json.get("playerAnswers", {}))
