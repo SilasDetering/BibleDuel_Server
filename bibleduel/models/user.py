@@ -8,7 +8,7 @@ from bibleduel.models.player import Player
 class User:
 
     def __init__(self, _id, username, friends, score, role):
-        self._id = _id
+        self._id = _id if _id is not None else uuid.uuid4().hex
         self.username = username
         self.friends = friends
         self.score = score

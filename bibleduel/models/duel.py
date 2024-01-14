@@ -7,7 +7,8 @@ from bibleduel.models.turn import Turn
 
 
 class Duel:
-    def __init__(self, _id, players, current_player, game_state, turns, current_turn, last_edit=None, created_at=None):
+    def __init__(self, _id: str, players, current_player: int, game_state: int,
+                 turns, current_turn: int, last_edit=None, created_at=None):
         self._id = _id
         self.players = players
         self.current_player = current_player
@@ -26,8 +27,11 @@ class Duel:
             "_id": self._id,
             "players": [player.toJSON() for player in self.players],
             "currentPlayer": self.current_player,
+            "game_state": self.game_state,
             "turns": [turn.toJSON() for turn in self.turns],
             "current_turn": self.current_turn,
+            "last_edit": self.last_edit,
+            "created_at": self.created_at
         }
 
     @staticmethod

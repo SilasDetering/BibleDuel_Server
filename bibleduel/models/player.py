@@ -16,9 +16,6 @@ class Player:
             "ratio": self.ratio
         }
 
-    def to_json_string(self):
-        return json.dumps(self.toJSON())
-
     @staticmethod
     def fromJSON(json_string: str):
         parsed_json = json.loads(json_string)
@@ -27,6 +24,15 @@ class Player:
             parsed_json["username"],
             parsed_json["score"],
             parsed_json["ratio"]
+        )
+
+    @staticmethod
+    def user_to_player(user):
+        return Player(
+            user["_id"],
+            user["username"],
+            user["score"],
+            [0, 0, 0]
         )
 
     @staticmethod

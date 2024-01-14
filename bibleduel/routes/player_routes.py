@@ -3,7 +3,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-def register_player_routes(app, db):
+def player_routes(app, db):
     player_service = PlayerService(db)
 
     @app.route('/user/find/', methods=['GET'])

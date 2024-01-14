@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 def duel_routes(app, db):
     duel_service = DuelService(db)
 
-    @app.route('/game/duel_list', methods=['GET'])
+    @app.route('/game/duel', methods=['GET'])
     @jwt_required()
     def get_duel_list():
         user_id = get_jwt_identity()
@@ -29,10 +29,8 @@ def duel_routes(app, db):
         duel = data.get('duel')
         return duel_service.update_duel(user_id, duel)
 
-    @app.route('/game/duel', methods=['DELETE'])
+    @app.route('/game/duel/<string:duel_id>', methods=['DELETE'])
     @jwt_required()
-    def delete_duel():
+    def delete_duel(duel_id):
         user_id = get_jwt_identity()
-        data = request.json
-        duel_id = data.get('duel_id')
         return duel_service.delete_duel(user_id, duel_id)
