@@ -44,8 +44,8 @@ class AuthService:
         return jsonify({"error": "Registrierung fehlgeschlagen"}), 400
 
     def login(self, username, password):
-
-        user = self.db["user"].find_one({"username": username})
+        query = {"username": username}
+        user = self.db["user"].find_one(query)
 
         if not user:
             return jsonify({"error": "Ungültige Anmeldedaten"}), 401

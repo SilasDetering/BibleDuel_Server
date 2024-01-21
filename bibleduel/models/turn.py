@@ -1,20 +1,20 @@
 import json
-
 from bibleduel.models.category import Category
 from bibleduel.models.question import Question
+from collections import defaultdict
 
 
 class Turn:
     def __init__(self, questions, category, player_answers=None):
         self.questions = questions
         self.category = category
-        self.playerAnswers = player_answers if player_answers is not None else {}
+        self.playerAnswers = player_answers if player_answers is not None else defaultdict(list)
 
     def toJSON(self):
         return {
             "questions": [question.toJSON() for question in self.questions],
             "category": self.category.toJSON(),
-            "playerAnswers": self.playerAnswers
+            "playerAnswers": dict(self.playerAnswers)
         }
 
     @staticmethod

@@ -12,4 +12,6 @@ class Category:
         return Category(parsed_json['title'], parsed_json['color'])
 
     def toJSON(self):
-        return json.dumps({'title': self.title, 'color': self.color})
+        return {
+            'title': self.title, 'color': self.color
+        }

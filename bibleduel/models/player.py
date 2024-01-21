@@ -17,14 +17,27 @@ class Player:
         }
 
     @staticmethod
-    def fromJSON(json_string: str):
-        parsed_json = json.loads(json_string)
+    def fromJSON(data):
+
+        if isinstance(data, str):
+            parsed_json = json.loads(data)
+        else:
+            parsed_json = data
+
         return Player(
             parsed_json["_id"],
             parsed_json["username"],
             parsed_json["score"],
             parsed_json["ratio"]
         )
+
+    def to_dict(self):
+        return {
+            "_id": self._id,
+            "username": self.username,
+            "score": self.score,
+            "ratio": self.ratio,
+        }
 
     @staticmethod
     def user_to_player(user):

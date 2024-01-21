@@ -26,7 +26,7 @@ class Duel:
         return {
             "_id": self._id,
             "players": [player.toJSON() for player in self.players],
-            "currentPlayer": self.current_player,
+            "current_player": self.current_player,
             "game_state": self.game_state,
             "turns": [turn.toJSON() for turn in self.turns],
             "current_turn": self.current_turn,
@@ -35,11 +35,14 @@ class Duel:
         }
 
     @staticmethod
-    def fromJSON(json_str):
-        parsed_json = json.loads(json_str)
+    def fromJSON(data):
+        if isinstance(data, str):
+            parsed_json = json.loads(data)
+        else:
+            parsed_json = data
 
         players = [Player.fromJSON(json.dumps(player)) for player in parsed_json["players"]]
         turns = [Turn.fromJSON(json.dumps(turn)) for turn in parsed_json["turns"]]
 
-        return Duel(parsed_json["_id"], players, parsed_json["currentPlayer"], parsed_json["game_state"], turns,
+        return Duel(parsed_json["_id"], players, parsed_json["current_player"], parsed_json["game_state"], turns,
                     parsed_json["current_turn"])

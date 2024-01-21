@@ -1,6 +1,7 @@
 import json
 import random
 import uuid
+from collections import defaultdict
 
 from flask import jsonify
 
@@ -26,7 +27,6 @@ class QuestionService:
             turn_json = {
                 "questions": [question for question in selected_questions],
                 "category": category,
-                "playerAnswers": {}
             }
 
             turns.append(turn_json)

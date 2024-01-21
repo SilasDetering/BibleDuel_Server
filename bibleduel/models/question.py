@@ -25,11 +25,11 @@ class Question:
         )
 
     def toJSON(self):
-        return json.dumps({
+        return {
             '_id': self._id,
             'title': self.title,
             'category': json.loads(self.category.toJSON()),
             'options': self.options,
             'answer': self.answer,
             'source': self.source
-        })
+        }

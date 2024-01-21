@@ -24,6 +24,7 @@ class PlayerService:
         }), 200
 
     def addFriend(self, user_id, player_id):
+        print("called")
         player = Player.user_to_player_json(self.db["user"].find_one({"_id": player_id}))
 
         if not player:

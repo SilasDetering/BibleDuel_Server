@@ -1,3 +1,4 @@
+import json
 from typing import List
 import uuid
 import re
@@ -7,13 +8,13 @@ from bibleduel.models.player import Player
 
 class User:
 
-    def __init__(self, _id, username, friends, score, role):
+    def __init__(self, _id, username, password, friends, score, role):
         self._id = _id if _id is not None else uuid.uuid4().hex
         self.username = username
         self.friends = friends
         self.score = score
         self.role = role
-        self.password = None
+        self.password = password
         self.salt = None
 
     @staticmethod
@@ -22,8 +23,7 @@ class User:
         friends: List[Player] = []
         score = 0
         role = "user"
-        new_user = User(_id, username, friends, score, role)
-        new_user.password = password
+        new_user = User(_id, username, password, friends, score, role)
         new_user.salt = salt
         return new_user
 
@@ -56,7 +56,8 @@ class User:
         return User(
             json_obj['_id'],
             json_obj['username'],
-            [Player.fromJSON(friend) for friend in json_obj['friends']],
+            json_obj['password'],
+            [Player.fromJSON(friend).to_dict() for friend in json_obj['friends']] if json_obj['friends'] else [],
             json_obj['score'],
             json_obj['role']
         )
