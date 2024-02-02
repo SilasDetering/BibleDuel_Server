@@ -21,6 +21,7 @@ def question_routes(app, db):
     def add_question():
         user_id = get_jwt_identity()
         data = request.json
+        print(data)
         new_question = data.get('question')
         return question_service.add_question(user_id, new_question)
 

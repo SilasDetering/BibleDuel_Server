@@ -21,8 +21,21 @@ class QuestionService:
         turns = []
 
         for category in selected_categories:
-            questions = list(self.db["questions"].find({"category.title": category["title"]}))
+            questions = list(self.db["questions"].find({"category": category["title"]}))
+
+            print(category["title"])
+            print(questions)
+
+            # Ziehe drei zufällige Fragen aus der Liste
             selected_questions = random.sample(questions, 3)
+
+            # Mische die Antworten
+            for question in selected_questions:
+                random.shuffle(question["options"])
+
+            # Ersetze die Katgegorie-Titel im Question-Objekt durch das Katgegorie-Objekt
+            for question in selected_questions:
+                question["category"] = category
 
             turn_json = {
                 "questions": [question for question in selected_questions],
@@ -41,13 +54,16 @@ class QuestionService:
         user = self.db["user"].find_one({"_id": user_id})
 
         if user is None:
+            print("error: User not found")
             return jsonify({"error": "User not found"}), 404
         if user["role"] != "admin":
+            print("error: User is not admin")
             return jsonify({"error": "User is not admin"}), 403
 
-        print(new_question)
-
         new_question['_id'] = uuid.uuid4().hex
+        new_question_title = new_question['category']['title']
+        new_question['category'] = new_question_title
+
         self.db["questions"].insert_one(new_question)
 
         return jsonify({"msg": "Frage hinzugefügt"}), 200

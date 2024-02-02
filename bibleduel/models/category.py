@@ -11,7 +11,7 @@ class Category:
         parsed_json = json.loads(json_str)
         return Category(parsed_json['title'], parsed_json['color'])
 
-    def toJSON(self):
+    def to_dict(self):
         return {
             'title': self.title, 'color': self.color
         }

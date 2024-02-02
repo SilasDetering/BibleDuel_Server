@@ -10,9 +10,19 @@ class Turn:
         self.category = category
         self.playerAnswers = player_answers if player_answers is not None else defaultdict(list)
 
-    def toJSON(self):
+    def count_correct_answers(self, username):
+        correct_answers = 0
+
+        for i, question in enumerate(self.questions):
+            if username in self.playerAnswers:
+                if question.answer == self.playerAnswers[username][i]:
+                    correct_answers += 1
+
+        return correct_answers
+
+    def to_dict(self):
         return {
-            "questions": [question.toJSON() for question in self.questions],
+            "questions": [question.to_dict() for question in self.questions],
             "category": self.category.toJSON(),
             "playerAnswers": dict(self.playerAnswers)
         }

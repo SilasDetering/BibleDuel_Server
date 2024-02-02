@@ -7,6 +7,8 @@ from bibleduel.models.turn import Turn
 
 
 class Duel:
+    score: dict = {}
+
     def __init__(self, _id: str, players, current_player: int, game_state: int,
                  turns, current_turn: int, last_edit=None, created_at=None):
         self._id = _id
@@ -22,17 +24,14 @@ class Duel:
     def create_new_duel(user: Player, opponent: Player):
         return Duel(uuid.uuid4().hex, [user, opponent], 1, 0, [], 0)
 
-    def toJSON(self):
-        return {
-            "_id": self._id,
-            "players": [player.toJSON() for player in self.players],
-            "current_player": self.current_player,
-            "game_state": self.game_state,
-            "turns": [turn.toJSON() for turn in self.turns],
-            "current_turn": self.current_turn,
-            "last_edit": self.last_edit,
-            "created_at": self.created_at
-        }
+    def get_score(self):
+        for player in self.players:
+            self.score[player._id] = 0
+
+            for turn in self.turns:
+                player_score = turn.count_correct_answers(player.username)
+                self.score[player._id] += player_score
+        return self.score
 
     @staticmethod
     def fromJSON(data):
@@ -46,3 +45,15 @@ class Duel:
 
         return Duel(parsed_json["_id"], players, parsed_json["current_player"], parsed_json["game_state"], turns,
                     parsed_json["current_turn"])
+
+    def to_dict(self):
+        return {
+            "_id": self._id,
+            "players": [player.to_dict() for player in self.players],
+            "current_player": self.current_player,
+            "game_state": self.game_state,
+            "turns": [turn.to_dict() for turn in self.turns],
+            "current_turn": self.current_turn,
+            "last_edit": self.last_edit,
+            "created_at": self.created_at
+        }

@@ -37,9 +37,9 @@ class DuelService:
         opponent_player = Player.user_to_player(opponent)
 
         duel = Duel.create_new_duel(user_player, opponent_player)
-        self.db["duels"].insert_one(duel.toJSON())
+        self.db["duels"].insert_one(duel.to_dict())
 
-        return jsonify(duel.toJSON()), 200
+        return jsonify(duel.to_dict()), 200
 
     def update_duel(self, user_id, duel):
         if isinstance(duel, str):
@@ -56,6 +56,7 @@ class DuelService:
             return jsonify({"error": "Duel not found"}), 404
 
         old_duel = Duel.fromJSON(old_duel_dict)
+        new_duel = Duel.fromJSON(duel_dict)
 
         if old_duel.players[old_duel.current_player]._id != user_id:
             return jsonify({"error": "Not your turn"}), 403
@@ -64,6 +65,17 @@ class DuelService:
             return jsonify({"error": "Game is over"}), 403
 
         self.db["duels"].replace_one(query, duel_dict)
+
+        if new_duel.game_state > 1:
+            player_score = new_duel.get_score()
+
+            if player_score[new_duel.players[0]._id] > player_score[new_duel.players[1]._id]:
+                print(new_duel.players[0].username + " hat gewonnen")
+            elif player_score[new_duel.players[0]._id] < player_score[new_duel.players[1]._id]:
+                print(new_duel.players[1].username + " hat gewonnen")
+            else:
+                print("unentschieden")
+
         return jsonify({"msg": "Duell aktualisiert"}), 200
 
     def delete_duel(self, user_id, duel_id):

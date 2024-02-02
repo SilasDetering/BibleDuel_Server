@@ -9,8 +9,9 @@ def player_routes(app, db):
     @app.route('/user/find/', methods=['GET'])
     @jwt_required()
     def find_player():
+        user_id = get_jwt_identity()
         player_name = request.args.get('player_name')
-        return player_service.findPlayer(player_name)
+        return player_service.findPlayer(player_name, user_id)
 
     @app.route('/user/addFriend', methods=['PUT'])
     @jwt_required()
@@ -27,3 +28,9 @@ def player_routes(app, db):
         data = request.json
         player_id = data.get('player_id')
         return player_service.removeFriend(user_id, player_id)
+
+    @app.route('/user/friends', methods=['GET'])
+    @jwt_required()
+    def get_friends():
+        user_id = get_jwt_identity()
+        return player_service.get_friends(user_id)

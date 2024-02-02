@@ -18,17 +18,17 @@ class Question:
         return Question(
             parsed_json['_id'],
             parsed_json['title'],
-            Category.fromJSON(json.dumps(parsed_json['category'])),
+            parsed_json['category'],
             parsed_json['options'],
             parsed_json['answer'],
             parsed_json['source']
         )
 
-    def toJSON(self):
+    def to_dict(self):
         return {
             '_id': self._id,
             'title': self.title,
-            'category': json.loads(self.category.toJSON()),
+            'category': self.category,
             'options': self.options,
             'answer': self.answer,
             'source': self.source

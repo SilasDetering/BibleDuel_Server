@@ -1,72 +1,59 @@
-import json
-from typing import List
 import uuid
 import re
-
-from bibleduel.models.player import Player
 
 
 class User:
 
-    def __init__(self, _id, username, password, friends, score, role):
+    def __init__(self, _id, username, password, friends, score, role, salt=None):
         self._id = _id if _id is not None else uuid.uuid4().hex
         self.username = username
-        self.friends = friends
-        self.score = score
-        self.role = role
+        self.friends = friends if friends is not None else {}
+        self.score = score if score is not None else 0
+        self.role = role if role is not None else "user"
         self.password = password
-        self.salt = None
+        self.salt = salt
 
-    @staticmethod
-    def create_new_user(username: str, password: str, salt: str):
-        _id = uuid.uuid4().hex
-        friends: List[Player] = []
-        score = 0
-        role = "user"
-        new_user = User(_id, username, password, friends, score, role)
-        new_user.salt = salt
-        return new_user
-
-    @property
-    def id(self):
-        return self._id
-
-    def toJSON(self):
+    def to_dict(self):
         return {
             '_id': self._id,
             'username': self.username,
             "password": self.password,
             "salt": self.salt,
-            'friends': [friend.toJSON() for friend in self.friends],
+            'friends': self.friends,
             'score': self.score,
             'role': self.role
         }
 
-    def to_transmit_json(self):
+    def to_transmit_dict(self):
         return {
             "_id": self._id,
             "username": self.username,
-            "friends": self.friends,
             "score": self.score,
             "role": self.role
         }
 
     @staticmethod
     def fromJSON(json_obj):
-        return User(
+        user = User(
             json_obj['_id'],
             json_obj['username'],
             json_obj['password'],
-            [Player.fromJSON(friend).to_dict() for friend in json_obj['friends']] if json_obj['friends'] else [],
+            json_obj['friends'],
             json_obj['score'],
-            json_obj['role']
+            json_obj['role'],
+            json_obj['salt']
         )
+        return user
 
-    def validate(self) -> (bool, str):
+    def validate_password(self) -> None or str:
+        if not (self.password and 4 <= len(self.password) <= 20
+                and re.match("^[a-zA-Z0-9!@#$%^&*()_+]+$", self.password)):
+            return "Ungültiges Passwort"
+
+        return None
+
+    def validate_username(self) -> None or str:
         if not (self.username and 4 <= len(self.username) <= 20 and re.match("^[a-zA-Z0-9]+$", self.username)):
-            return True, "valid"
+            return "Ungültiger Benutzername"
 
-        if not (self.password and 4 <= len(self.password) <= 20 and re.match("^[a-zA-Z0-9]+$", self.password)):
-            return True, "valid"
-
-        return True, "valid"
+        return None
