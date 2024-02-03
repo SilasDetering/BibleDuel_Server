@@ -25,4 +25,6 @@ duel_routes(app, mongoDB)
 question_routes(app, mongoDB)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
+
