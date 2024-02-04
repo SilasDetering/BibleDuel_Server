@@ -26,7 +26,5 @@ question_routes(app, mongoDB)
 
 if __name__ == '__main__':
     # app.run(debug=True)
-    print(MONGO_URI)
-    print(JWT_SECRET)
     app.run(host='0.0.0.0', port=5000)
 
