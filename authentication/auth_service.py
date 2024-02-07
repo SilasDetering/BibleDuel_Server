@@ -24,7 +24,7 @@ class AuthService:
         val = new_user.validate_username()
         val = new_user.validate_password() if val is None else val
         if val is not None:
-            return jsonify({"error": val}), 400
+            return jsonify({"msg": val}), 400
 
         # Encrypt the password
         new_user.password = (pbkdf2_sha256.using(rounds=HASHROUNDS, salt=new_user.salt.encode('utf-8'))
@@ -32,7 +32,7 @@ class AuthService:
 
         # Check for existing username
         if self.db["user"].find_one({"username": {"$regex": f'^{re.escape(new_user.username)}$', "$options": "i"}}):
-            return jsonify({"error": "Benutzername existiert bereits"}), 400
+            return jsonify({"msg": "Benutzername existiert bereits"}), 400
 
         if self.db["user"].insert_one(new_user.to_dict()):
             access_token = create_access_token(identity=new_user._id)
@@ -42,14 +42,14 @@ class AuthService:
                 "user": new_user.to_transmit_dict()
             }), 201
 
-        return jsonify({"error": "Registrierung fehlgeschlagen"}), 400
+        return jsonify({"msg": "Registrierung fehlgeschlagen"}), 400
 
     def login(self, username, password):
         query = {"username": username}
         user = self.db["user"].find_one(query)
 
         if not user:
-            return jsonify({"error": "Ungültige Anmeldedaten"}), 401
+            return jsonify({"msg": "Ungültige Anmeldedaten"}), 401
 
         user = User.fromJSON(user)
 
@@ -61,7 +61,7 @@ class AuthService:
                 "user": user.to_transmit_dict()
             }), 200
         else:
-            return jsonify({"error": "Ungültige Anmeldedaten"}), 401
+            return jsonify({"msg": "Ungültige Anmeldedaten"}), 401
 
     def delete_user(self, user_id):
         user = self.db["user"].find_one({"_id": user_id})
@@ -70,7 +70,7 @@ class AuthService:
             self.db["user"].delete_one({"_id": user_id})
             return jsonify({"msg": "Benutzer erfolgreich gelöscht"}), 200
         else:
-            response = jsonify({"error": "Benutzer konnte nicht gelöscht werden"})
+            response = jsonify({"msg": "Benutzer konnte nicht gelöscht werden"})
             response.status_code = 404
             return response
 
@@ -78,7 +78,7 @@ class AuthService:
         user = self.db["user"].find_one({"_id": user_id})
 
         if not user:
-            return jsonify({"error": "Benutzer nicht gefunden"}), 404
+            return jsonify({"msg": "Benutzer nicht gefunden"}), 404
 
         return jsonify({
             "user": User.fromJSON(user).to_transmit_dict()
@@ -94,7 +94,7 @@ class AuthService:
 
             val = user.validate_password()
             if val is not None:
-                return jsonify({"error": val}), 400
+                return jsonify({"msg": val}), 400
 
             user.password = (pbkdf2_sha256.using(rounds=HASHROUNDS, salt=user.salt.encode('utf-8'))
                              .hash(user.password + PEPPER))
@@ -102,7 +102,7 @@ class AuthService:
             self.db["user"].replace_one({"_id": user_id}, user.to_dict())
             return jsonify({"msg": "Passwort erfolgreich geändert"}), 200
 
-        return jsonify({"error": "Ungültige Anmeldedaten"}), 401
+        return jsonify({"msg": "Ungültige Anmeldedaten"}), 401
 
     def change_username(self, new_username, user_id):
         user = self.db["user"].find_one({"_id": user_id})
@@ -113,9 +113,9 @@ class AuthService:
 
             val = user.validate_username()
             if val is not None:
-                return jsonify({"error": val}), 400
+                return jsonify({"msg": val}), 400
 
             self.db["user"].replace_one({"_id": user_id}, user.to_dict())
             return jsonify({"msg": "Benutzername erfolgreich geändert"}), 200
 
-        return jsonify({"error": "Benutzername konnte nicht geändert werden"}), 400
+        return jsonify({"msg": "Benutzername konnte nicht geändert werden"}), 400
