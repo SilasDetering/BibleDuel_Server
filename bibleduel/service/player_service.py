@@ -49,8 +49,6 @@ class PlayerService:
                 "msg": "Du kannst dich nicht selbst hinzufügen"
             }), 400
 
-        user = self.db["user"].find_one({"_id": user_id})
-
         user_friends = self.db["user"].find_one({"_id": user_id})["friends"]
         if user_friends and player_id in user_friends:
             return jsonify({
