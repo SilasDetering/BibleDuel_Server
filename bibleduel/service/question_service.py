@@ -21,8 +21,7 @@ class QuestionService:
             success = True
             turns = []
 
-            projection = {"_id": 0}
-            list_of_categories = list(self.db["categories"].find(projection=projection))
+            list_of_categories = list(self.db["categories"].find())
             selected_categories = random.sample(list_of_categories, 3)
 
             for category in selected_categories:
@@ -58,8 +57,7 @@ class QuestionService:
         return jsonify({"turns": turns}), 200
 
     def get_list_of_categories(self):
-        projection = {"_id": 0}
-        list_of_categories = list(self.db["categories"].find(projection=projection))
+        list_of_categories = list(self.db["categories"].find())
         return jsonify({"categories": list_of_categories}), 200
 
     def add_question(self, user_id, new_question):
@@ -75,6 +73,7 @@ class QuestionService:
         new_question['_id'] = uuid.uuid4().hex
         new_question_title = new_question['category']['title']
         new_question['category'] = new_question_title
+        new_question["author"] = user["_id"]
 
         self.db["questions"].insert_one(new_question)
 
@@ -87,6 +86,9 @@ class QuestionService:
             return jsonify({"error": "User not found"}), 404
         if user["role"] != "admin":
             return jsonify({"error": "User is not admin"}), 403
+
+        new_category['_id'] = uuid.uuid4().hex
+        new_category["author"] = user["_id"]
 
         self.db["categories"].insert_one(new_category)
         return jsonify({"msg": "Kategorie hinzugefügt"}), 200
