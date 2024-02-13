@@ -16,6 +16,7 @@ class QuestionService:
     def get_new_turn_data(self):
         success = False
         errno = 0
+        turns = []
 
         while not success and errno < 10:
             success = True
@@ -25,7 +26,7 @@ class QuestionService:
             selected_categories = random.sample(list_of_categories, 3)
 
             for category in selected_categories:
-                questions = list(self.db["questions"].find({"category": category["title"]}))
+                questions = list(self.db["questions"].find({"category": category["_id"]}))
 
                 if len(questions) < 3:
                     print("error aufgetreten")
@@ -40,7 +41,7 @@ class QuestionService:
                 for question in selected_questions:
                     random.shuffle(question["options"])
 
-                # Ersetze die Katgegorie-Titel im Question-Objekt durch das Katgegorie-Objekt
+                # Ersetze die Katgegorie-ID im Question-Objekt durch das Katgegorie-Objekt
                 for question in selected_questions:
                     question["category"] = category
 
@@ -71,8 +72,7 @@ class QuestionService:
             return jsonify({"error": "User is not admin"}), 403
 
         new_question['_id'] = uuid.uuid4().hex
-        new_question_title = new_question['category']['title']
-        new_question['category'] = new_question_title
+        new_question['category'] = new_question['category']['_id']
         new_question["author"] = user["_id"]
 
         self.db["questions"].insert_one(new_question)
