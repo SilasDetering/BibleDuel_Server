@@ -95,12 +95,10 @@ class DuelService:
         user_loser = None
 
         if player_score[duel.players[0]._id] > player_score[duel.players[1]._id]:
-            print(duel.players[0].username + " wins")
             user_winner = User.fromJSON( self.db["user"].find_one({"_id": duel.players[0]._id}) )
             user_loser = User.fromJSON( self.db["user"].find_one({"_id": duel.players[1]._id}) )
 
         elif player_score[duel.players[0]._id] < player_score[duel.players[1]._id]:
-            print(duel.players[1].username + " wins")
             user_winner = User.fromJSON( self.db["user"].find_one({"_id": duel.players[1]._id}) )
             user_loser = User.fromJSON( self.db["user"].find_one({"_id": duel.players[0]._id}) )
 

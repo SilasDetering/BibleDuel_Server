@@ -14,35 +14,47 @@ class QuestionService:
         self.db = db
 
     def get_new_turn_data(self):
-        projection = {"_id": 0}
-        list_of_categories = list(self.db["categories"].find(projection=projection))
-        selected_categories = random.sample(list_of_categories, 3)
+        success = False
+        errno = 0
 
-        turns = []
+        while not success and errno < 10:
+            success = True
+            turns = []
 
-        for category in selected_categories:
-            questions = list(self.db["questions"].find({"category": category["title"]}))
+            projection = {"_id": 0}
+            list_of_categories = list(self.db["categories"].find(projection=projection))
+            selected_categories = random.sample(list_of_categories, 3)
 
-            print(category["title"])
-            print(questions)
+            for category in selected_categories:
+                questions = list(self.db["questions"].find({"category": category["title"]}))
 
-            # Ziehe drei zufällige Fragen aus der Liste
-            selected_questions = random.sample(questions, 3)
+                if len(questions) < 3:
+                    print("error aufgetreten")
+                    errno += 1
+                    success = False
+                    continue
 
-            # Mische die Antworten
-            for question in selected_questions:
-                random.shuffle(question["options"])
+                # Ziehe drei zufällige Fragen aus der Liste
+                selected_questions = random.sample(questions, 3)
 
-            # Ersetze die Katgegorie-Titel im Question-Objekt durch das Katgegorie-Objekt
-            for question in selected_questions:
-                question["category"] = category
+                # Mische die Antworten
+                for question in selected_questions:
+                    random.shuffle(question["options"])
 
-            turn_json = {
-                "questions": [question for question in selected_questions],
-                "category": category,
-            }
+                # Ersetze die Katgegorie-Titel im Question-Objekt durch das Katgegorie-Objekt
+                for question in selected_questions:
+                    question["category"] = category
 
-            turns.append(turn_json)
+                turn_json = {
+                    "questions": [question for question in selected_questions],
+                    "category": category,
+                }
+
+                turns.append(turn_json)
+
+        if errno >= 10:
+            return jsonify({"error": "Es konnten keine Duelle erzeugt werden"}), 404
+
         return jsonify({"turns": turns}), 200
 
     def get_list_of_categories(self):
