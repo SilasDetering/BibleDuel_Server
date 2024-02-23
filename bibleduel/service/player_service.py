@@ -114,3 +114,14 @@ class PlayerService:
         return jsonify({
             "friends": friends
         }), 200
+
+    def get_contributors(self):
+        contributor_ids = self.db["questions"].distinct("author")
+        contributors = []
+        for contributor_id in contributor_ids:
+            contributor = self.db["user"].find_one({"_id": contributor_id})
+            if contributor:
+                contributors.append(Player.user_to_player_dict(contributor))
+        return jsonify({
+            "contributors": contributors
+        }), 200
