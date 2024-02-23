@@ -2,9 +2,7 @@ import json
 import random
 import uuid
 from collections import defaultdict
-
 from flask import jsonify
-
 from bibleduel.models.question import Question
 
 
@@ -100,3 +98,18 @@ class QuestionService:
 
         self.db["categories"].delete_one({"title": category})
         return jsonify({"msg": "Kategorie gelöscht"}), 200
+
+    def get_questions(self, question_id):
+        question = self.db["questions"].find_one({"_id": question_id})
+        return jsonify(question), 200
+
+    def report_question(self, user_id, report):
+        user = self.db["user"].find_one({"_id": user_id})
+
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+
+        question = self.db["questions"].find_one({"_id": report["question_id"]})
+        question["reports"].append(report)
+        self.db["questions"].update_one({"_id": report["question_id"]}, {"$set": question})
+        return jsonify({"msg": "Frage gemeldet"}), 200
