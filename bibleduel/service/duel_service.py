@@ -1,4 +1,5 @@
 import json
+import random
 from flask import jsonify
 from bibleduel.models.player import Player
 from bibleduel.models.duel import Duel
@@ -42,6 +43,16 @@ class DuelService:
 
         return jsonify(duel.to_dict()), 200
 
+    def challenge_random_player(self, user_id):
+        users = list(self.db["user"].find({"_id": {"$ne": user_id}}))
+
+        if not users:
+            return jsonify({"error": "No other users found"}), 404
+
+        opponent = random.choice(users)
+
+        return self.create_duel(user_id, opponent["_id"])
+
     def update_duel(self, user_id, duel):
         if isinstance(duel, str):
             duel_dict = json.loads(duel)
@@ -82,7 +93,7 @@ class DuelService:
 
         old_duel = Duel.fromJSON(json.dumps(old_duel_dict))
 
-        if(old_duel.players[0]._id != user_id and old_duel.players[1]._id != user_id):
+        if old_duel.players[0]._id != user_id and old_duel.players[1]._id != user_id:
             return jsonify({"error": "Not your duel"}), 403
 
         self.db["duels"].delete_one(query)
@@ -95,12 +106,12 @@ class DuelService:
         user_loser = None
 
         if player_score[duel.players[0]._id] > player_score[duel.players[1]._id]:
-            user_winner = User.fromJSON( self.db["user"].find_one({"_id": duel.players[0]._id}) )
-            user_loser = User.fromJSON( self.db["user"].find_one({"_id": duel.players[1]._id}) )
+            user_winner = User.fromJSON(self.db["user"].find_one({"_id": duel.players[0]._id}))
+            user_loser = User.fromJSON(self.db["user"].find_one({"_id": duel.players[1]._id}))
 
         elif player_score[duel.players[0]._id] < player_score[duel.players[1]._id]:
-            user_winner = User.fromJSON( self.db["user"].find_one({"_id": duel.players[1]._id}) )
-            user_loser = User.fromJSON( self.db["user"].find_one({"_id": duel.players[0]._id}) )
+            user_winner = User.fromJSON(self.db["user"].find_one({"_id": duel.players[1]._id}))
+            user_loser = User.fromJSON(self.db["user"].find_one({"_id": duel.players[0]._id}))
 
         if user_loser is not None and user_winner is not None:
             user_winner.friends[user_loser._id][0] += 1
@@ -113,7 +124,6 @@ class DuelService:
             self.db["user"].replace_one({"_id": user_loser._id}, user_loser.to_dict())
 
         else:
-            print("unentschieden")
             user_one = User.fromJSON(self.db["user"].find_one({"_id": duel.players[1]._id}))
             user_two = User.fromJSON(self.db["user"].find_one({"_id": duel.players[0]._id}))
 

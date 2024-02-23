@@ -27,6 +27,12 @@ def duel_routes(app, db):
         opponent_id = data.get('opponent_id')
         return duel_service.create_duel(user_id, opponent_id)
 
+    @app.route('/game/duel/random', methods=['POST'])
+    @jwt_required()
+    def challenge_random_player():
+        user_id = get_jwt_identity()
+        return duel_service.challenge_random_player(user_id)
+
     @app.route('/game/duel', methods=['PUT'])
     @jwt_required()
     def update_duel():

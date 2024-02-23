@@ -34,3 +34,8 @@ def player_routes(app, db):
     def get_friends():
         user_id = get_jwt_identity()
         return player_service.get_friends(user_id)
+
+    @app.route('/user/contributors', methods=['GET'])
+    @jwt_required()
+    def get_contributors():
+        return player_service.get_contributors()
