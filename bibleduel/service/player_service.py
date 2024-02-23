@@ -49,8 +49,6 @@ class PlayerService:
                 "msg": "Du kannst dich nicht selbst hinzufügen"
             }), 400
 
-        user = self.db["user"].find_one({"_id": user_id})
-
         user_friends = self.db["user"].find_one({"_id": user_id})["friends"]
         if user_friends and player_id in user_friends:
             return jsonify({
@@ -95,14 +93,23 @@ class PlayerService:
                 "msg": "Benutzer nicht gefunden"
             }), 404
 
-        friends = [Player.user_to_player_dict(self.db["user"].find_one({"_id": friend_id})) for friend_id in user["friends"]]
+        friends = []
 
-        for friend in friends:
-            friend["ratio"] = [
-                user["friends"][friend["_id"]][0],
-                user["friends"][friend["_id"]][1],
-                user["friends"][friend["_id"]][2]
-            ]
+        for friend_id in user["friends"]:
+            friend = self.db["user"].find_one({"_id": friend_id})
+            if friend:
+                friend_data = Player.user_to_player_dict(friend)
+                friend_data["ratio"] = [
+                    user["friends"][friend["_id"]][0],
+                    user["friends"][friend["_id"]][1],
+                    user["friends"][friend["_id"]][2]
+                ]
+                friends.append(friend_data)
+            else:
+                self.db["user"].update_one(
+                    {"_id": user_id},
+                    {"$unset": {f"friends.{friend_id}": 1}}
+                )
 
         return jsonify({
             "friends": friends
