@@ -6,17 +6,22 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 def question_routes(app, db):
     question_service = QuestionService(db)
 
+    @app.route('/api/questions', methods=['GET'])
+    @jwt_required()
+    def get_questions():
+        user_id = get_jwt_identity()
+        return question_service.get_questions(user_id)
+
     @app.route('/questions/<string:question_id>', methods=['GET'])
     @jwt_required()
     def get_question(question_id):
-        return question_service.get_questions(question_id)
+        return question_service.get_question(question_id)
 
     @app.route('/questions', methods=['POST'])
     @jwt_required()
     def add_question():
         user_id = get_jwt_identity()
         data = request.json
-        print(data)
         new_question = data.get('question')
         return question_service.add_question(user_id, new_question)
 

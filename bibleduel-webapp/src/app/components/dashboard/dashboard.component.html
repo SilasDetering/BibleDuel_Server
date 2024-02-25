@@ -1,0 +1,33 @@
+<div class="center">
+    <h1>Hallo {{user?.username}}</h1>
+</div>
+
+    <ul class="nav nav-tabs" role="tablist" style="margin-top: 50px;">
+        <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="statistics" data-bs-toggle="tab" role="tab" tabindex="0" (click)="changeView('statistics')">Dashboard</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="user" data-bs-toggle="tab" role="tab" tabindex="0" (click)="changeView('user')">User</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="categories" data-bs-toggle="tab" role="tab" tabindex="1" (click)="changeView('categories')">Kathegorien</a>
+        </li>
+        <li class="nav-item" role="presentation">
+            <a class="nav-link" id="questions" data-bs-toggle="tab" role="tab" tabindex="1" (click)="changeView('questions')">Fragen</a>
+        </li>
+    </ul>
+
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active show" id="tab_statistics" role="tabpanel" style="margin-top: 10px;">
+            <app-statistics></app-statistics>
+        </div>
+        <div class="tab-pane fade" id="tab_user" role="tabpanel" style="margin-top: 10px;">
+            <app-user></app-user>
+        </div>
+        <div class="tab-pane fade" id="tab_categories" role="tabpanel" style="margin-top: 10px;">
+            <app-categories></app-categories>
+        </div>
+        <div class="tab-pane fade" id="tab_questions" role="tabpanel" style="margin-top: 10px;">
+            <app-questions></app-questions>
+        </div>
+    </div>

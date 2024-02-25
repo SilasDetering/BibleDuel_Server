@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/service/auth.service';
-import { FlashMessageService } from 'src/app/service/flash-messages.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { FlashMessageService } from 'src/app/services/flash-messages.service';
 
 @Component({
   selector: 'app-login',
@@ -16,29 +16,20 @@ export class LoginComponent {
     private router: Router,
   ) { }
 
-  username: String | undefined;
-  password: String | undefined;
+  username: string | undefined;
+  password: string | undefined;
 
   onLoginSubmit() {
-    const user = {
-      username: this.username,
-      password: this.password
-    }
-
-    this.authService.authenticateUser(user).subscribe({
-      next: data => {
-        if (data.success) {
-          this.authService.storeUserData(data.token, data.user);
-          this.flashMessage.show('Erfolgreich angemeldet', { cssClass: 'alert-success', timeout: 5000 });
-          this.router.navigate(['/home']);
-        } else {
-          this.flashMessage.show('Fehler bei der Anmeldung', { cssClass: 'alert-danger', timeout: 5000 });
-          this.router.navigate(['/login']);
+    if(this.username && this.password){
+      this.authService.authenticateUser(this.username, this.password).subscribe({
+        next: data => {
+          this.authService.storeUserData(data.access_token, data.user);
+          this.router.navigate(['/dashboard']);
+        },
+        error: error => {
+          this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
         }
-      },
-      error: error => {
-        this.flashMessage.show(error, { cssClass: 'alert-danger', timeout: 5000 });
-      }
-    })
+      })
+    }
   }
 }

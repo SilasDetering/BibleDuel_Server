@@ -1,0 +1,53 @@
+.menu{
+    display: flex; 
+    justify-content: center;
+    padding: 15px 0 15px 0;
+}
+
+.menu-item{
+    margin-right: 10px;
+}
+
+.menu-search{
+    width: 30%;
+}
+
+.sort{
+    font-size: 20px;
+    margin: 4px 0 0 0;
+}
+
+.categorie-list{
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.categorieCard{
+    display: flex; 
+    justify-content: left;
+    margin: 5px 0 5px 0;
+    padding: 10px 15px 10px 15px;
+    text-align: left;
+    color: black;
+
+    border-radius: 5px;
+    background-color: rgb(92, 92, 92);
+}
+
+.categorieTitle{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.categorieSplit{
+    font-size: 25px;
+    margin: 0 10px 0 10px;
+}
+
+.categorieSubtitle{
+    font-size: 25px;
+}
+
+.categorieNumber{
+    font-size: 25px;
+}

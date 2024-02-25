@@ -10,13 +10,11 @@ export class User {
     ) {}
 
     static _fromJSON(json: any): User {
-        const { _id, username, friends, score, role } = json;
-        const user = new User(
-            _id,
-            username,
-            score,
-            role
+        return new User(
+            json._id,
+            json.username,
+            json.score,
+            json.role
         );
-        return user;
     }
 }

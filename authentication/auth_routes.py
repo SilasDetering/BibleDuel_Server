@@ -3,10 +3,11 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
+
 def auth_routes(app, db):
     auth_service = AuthService(db)
 
-    @app.route('/user', methods=['POST'])
+    @app.route('/api/user', methods=['POST'])
     def register():
         username = request.json['username']
         password = request.json['password']

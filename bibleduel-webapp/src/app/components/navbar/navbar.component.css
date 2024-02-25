@@ -9,6 +9,10 @@ nav{
     justify-content: right;
 }
 
+.headline{
+    justify-self: center;
+}
+
 .btn-nav{
     margin: 0 10px 0 10px;
     padding: 0 5px 0 5px;

@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "bibleduel-webapp:build:production"
+              "buildTarget": "bibleduel-webapp:build:production"
             },
             "development": {
-              "browserTarget": "bibleduel-webapp:build:development"
+              "buildTarget": "bibleduel-webapp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "bibleduel-webapp:build"
+            "buildTarget": "bibleduel-webapp:build"
           }
         },
         "test": {

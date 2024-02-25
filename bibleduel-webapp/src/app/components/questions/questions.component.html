@@ -1,0 +1,26 @@
+<div class="block menu mt-4">
+    <div class="input-group menu-search">
+        <input type="text" class="form-control" placeholder="nach einer Frage oder Autor suchen">
+        <button class="btn btn-secondary" type="button" id="button-addon2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<div class="block question-list mt-2">
+    <div class="questionCard mt-1" *ngFor="let question of question_list">
+        <div>
+            <h6 class="questionTitle">{{question.title}}</h6>
+            <h6 class="questionOption correct">{{question.options[0]}}</h6>
+            <h6 class="questionOption">{{question.options[1]}}</h6>
+            <h6 class="questionOption">{{question.options[2]}}</h6>
+            <h6 class="questionOption">{{question.options[3]}}</h6>
+            <h6 class="questionSrc">{{question.source}}</h6>
+        </div>
+        <div>
+            <h6 class="questionAuthor">{{question.author}}</h6>
+        </div>
+    </div>
+</div>

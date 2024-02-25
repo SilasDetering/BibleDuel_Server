@@ -1,0 +1,32 @@
+<div class="block menu mt-4">
+    <div class="form-group menu-item">
+        <label class="sort">sortieren</label>
+    </div>
+    <div class="form-group menu-item">
+        <select class="form-select" id="exampleSelect1">
+            <option>Alphabetisch</option>
+            <option>anz. Fragen absteigent</option>
+            <option>anz. Fragen aufsteigent</option>
+        </select>
+    </div>
+</div>
+
+<div class="block categorie-list mt-2">
+    <div class="categorieCard mt-1" *ngFor="let categorie of categorie_list">
+        <div>
+            <label class="categorieTitle">{{categorie.title}}</label>
+        </div>
+        <div>
+            <label class="categorieSplit">-</label>
+        </div>
+        <div>
+            <label class="categorieSubtitle">{{categorie.subtitle}}</label>
+        </div>
+        <div>
+            <label class="categorieSplit">-</label>
+        </div>
+        <div>
+            <label class="categorieNumber">22</label>
+        </div>
+    </div>
+</div>

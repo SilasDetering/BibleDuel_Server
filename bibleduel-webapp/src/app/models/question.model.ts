@@ -7,14 +7,16 @@ export class Question {
     options: string[];
     answer: string;
     source: string;
+    author: string;
 
-    constructor(_id: string, title: string, category: Category, options: string[], answer: string, source?: string) {
+    constructor(_id: string, title: string, category: Category, options: string[], answer: string, source?: string, author?: string) {
         this._id = _id;
         this.title = title;
         this.category = category;
         this.options = options;
         this.answer = answer;
         this.source = source || "";
+        this.author = author || "unknown";
     }
 
     _toDict(): any {
@@ -24,7 +26,8 @@ export class Question {
             category: this.category._toDict(),
             options: this.options,
             answer: this.answer,
-            source: this.source
+            source: this.source,
+            author: this.author
         };
     }
 
@@ -35,7 +38,8 @@ export class Question {
             Category._fromJSON(data.category),
             data.options,
             data.answer,
-            data.source
+            data.source,
+            data.author
         );
     }
 }

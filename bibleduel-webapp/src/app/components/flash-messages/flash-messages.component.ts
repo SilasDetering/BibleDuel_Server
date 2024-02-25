@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { FlashMessage, FlashMessageService } from 'src/app/service/flash-messages.service';
+import { FlashMessage, FlashMessageService } from 'src/app/services/flash-messages.service';
 
 @Component({
   selector: 'app-flash-messages',

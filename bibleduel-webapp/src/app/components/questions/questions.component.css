@@ -1,0 +1,61 @@
+.menu{
+    display: flex; 
+    justify-content: center;
+    padding: 15px 0 15px 0;
+}
+
+.menu-item{
+    margin-right: 10px;
+}
+
+.menu-search{
+    width: 40%;
+}
+
+.question-list{
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.questionCard{
+    display: flex; 
+    justify-content: left;
+    margin: 5px 0 5px 0;
+    padding: 10px 15px 10px 15px;
+    text-align: left;
+    color: black;
+
+    border-radius: 5px;
+    background-color: rgb(92, 92, 92);
+}
+
+.questionTitle{
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.questionAuthor{
+    font-size: 22px;
+    margin: 0 0 0 200px;
+}
+
+.questionSrc{
+    font-style: italic;
+    background-color: rgb(107, 107, 107);
+    border-radius: 5px;
+    padding: 0 12px 0 10px;
+}
+
+.questionOption{
+    padding: 0 0 0 5px;
+}
+
+.correct{
+    background-color: rgb(49, 110, 49);
+    border-radius: 5px;
+}
+
+.question-list{
+    max-height: 600px;
+    overflow-y: auto;
+}
