@@ -120,7 +120,7 @@ class PlayerService:
         contributors = []
         for contributor_id in contributor_ids:
             contributor = self.db["user"].find_one({"_id": contributor_id})
-            if contributor:
+            if contributor and contributor["username"] != "Silas":
                 contributors.append(Player.user_to_player_dict(contributor))
         return jsonify({
             "contributors": contributors
