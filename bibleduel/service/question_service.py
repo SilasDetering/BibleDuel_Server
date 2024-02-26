@@ -1,9 +1,6 @@
-import json
 import random
 import uuid
-from collections import defaultdict
 from flask import jsonify
-from bibleduel.models.question import Question
 
 
 class QuestionService:

@@ -21,6 +21,7 @@ jwt = JWTManager(app)
 CORS(app)
 
 # Database
+print("Database:" + MONGO_URI)
 mongoDB = MongoClient(MONGO_URI)["bibleduel"]
 
 # Angular Frontend Path
