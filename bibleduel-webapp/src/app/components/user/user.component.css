@@ -44,18 +44,19 @@
     margin: 0 10px 0 0;
 }
 
-.delete{
-    display: flex; 
-    justify-content: center;
-    color: white;
-    background-color: rgb(129, 0, 0);
-    width: 75px;
-    margin: -5px 0 -5px auto;
-    text-align: center;
-    padding: 17px 0 17px 0;
-    border-radius: 0 4px 4px 0;
+.editUserCard{
+    text-align: left;
 }
 
-.delete-confirm{
-    width: 100px;
+.editUserActions{
+    text-align: right;
+}
+
+.inputField{
+    background-color: rgb(71, 71, 71);
+    color: white;
+}
+
+.btn-close{
+    float: right;
 }

@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { CategorieService } from 'src/app/services/categorie.service';
+import { DuelService } from 'src/app/services/duel.service';
+import { FlashMessageService } from 'src/app/services/flash-messages.service';
+import { QuestionsService } from 'src/app/services/questions.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,12 +16,84 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
+    private flashMessage: FlashMessageService,
+    private questionService: QuestionsService,
+    private categorieService: CategorieService,
+    private duelService: DuelService,
   ) { }
 
   user: User | undefined;
+
+  user_list: User[] = [];
+  question_list: any[] = [];
+  categorie_list: any[] = [];
+  contributor_list: any[] = [];
+  duel_count: number = 0;
   
   ngOnInit() {
     this.user = this.authService.getUser();
+
+    this.getUserList();
+    this.getCategorieList();
+    this.getQuestionList();
+    this.getContributors();
+  }
+
+  countDuels(){
+    this.duelService.countDuels().subscribe({
+      next: data => {
+        this.duel_count = data.duel_count;
+      },
+      error: error => {
+        this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
+  }
+
+  getUserList() {
+    this.userService.getUserList().subscribe({
+      next: data => {
+        this.user_list = data.user_list;
+      },
+      error: error => {
+        this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
+  }
+
+  getQuestionList() {
+    this.questionService.getQuestionList().subscribe({
+      next: data => {
+        console.log(data);
+        this.question_list = data;
+      },
+      error: error => {
+        this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
+  }
+
+  getCategorieList() {
+    this.categorieService.getCategorieList().subscribe({
+      next: data => {
+        this.categorie_list = data.categories;
+      },
+      error: error => {
+        this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
+  }
+
+  getContributors() {
+    this.userService.getContributors().subscribe({
+      next: data => {
+        this.contributor_list = data.contributors;
+      },
+      error: error => {
+        this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
   }
 
   changeView(id: string) {

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+
 
 @Component({
   selector: 'app-statistics',
@@ -7,4 +8,13 @@ import { Component } from '@angular/core';
 })
 export class StatisticsComponent {
 
+  constructor() { }
+
+  @Input() nr_of_users: number = NaN;
+  @Input() nr_of_contributors: number = NaN;
+
+  @Input() nr_of_categories: number = NaN;
+  @Input() nr_of_questions: number = NaN;
+  @Input() nr_of_games: number = NaN;
+  @Input() nr_of_reports: number = NaN;
 }

@@ -12,21 +12,21 @@
 </div>
 
 <div class="block categorie-list mt-2">
-    <div class="categorieCard mt-1" *ngFor="let categorie of categorie_list">
+    <div class="categorieCard mt-1" *ngFor="let categorie of categorie_list" [style.background-color]="categorie.color">
         <div>
             <label class="categorieTitle">{{categorie.title}}</label>
         </div>
-        <div>
+        <div *ngIf="categorie.subtitle">
             <label class="categorieSplit">-</label>
         </div>
-        <div>
+        <div *ngIf="categorie.subtitle">
             <label class="categorieSubtitle">{{categorie.subtitle}}</label>
         </div>
         <div>
             <label class="categorieSplit">-</label>
         </div>
         <div>
-            <label class="categorieNumber">22</label>
+            <label class="categorieNumber">{{categorie.question_count}}</label>
         </div>
     </div>
 </div>

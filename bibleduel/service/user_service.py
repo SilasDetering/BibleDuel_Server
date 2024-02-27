@@ -18,18 +18,38 @@ class UserService:
             "contributors": contributors
         }), 200
 
-    def get_user(self, user_id):
-        user = self.db["user"].find_one({"_id": user_id})
-
-        if not user:
-            return jsonify({"msg": "Benutzer nicht gefunden"}), 404
-
-        if user["role"] != "admin":
-            return jsonify({"error": "User is not admin"}), 403
-
+    def get_user_list(self):
         user_list = self.db["user"].find()
         user_list = [user for user in user_list]
 
         return jsonify({
             "user_list": user_list
         }), 200
+
+    def edit_user(self, user_id, new_user):
+        user = self.db["user"].find_one({"_id": user_id})
+
+        if user:
+            updated_values = {
+                "score": new_user.get("score", user["score"]),
+                "username": new_user.get("username", user["username"]),
+                "role": new_user.get("role", user["role"])
+            }
+
+            self.db["user"].replace_one({"_id": user_id}, updated_values)
+            return jsonify({"msg": "Benutzer erfolgreich gespeichert"}), 200
+        else:
+            response = jsonify({"msg": "Benutzer konnte nicht geändert werden"})
+            response.status_code = 404
+            return response
+
+    def delete_user(self, user_id):
+        user = self.db["user"].find_one({"_id": user_id})
+
+        if user:
+            self.db["user"].delete_one({"_id": user_id})
+            return jsonify({"msg": "Benutzer erfolgreich gelöscht"}), 200
+        else:
+            response = jsonify({"msg": "Benutzer konnte nicht gelöscht werden"})
+            response.status_code = 404
+            return response

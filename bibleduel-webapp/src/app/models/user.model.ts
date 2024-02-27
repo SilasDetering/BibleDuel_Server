@@ -1,5 +1,3 @@
-import { Player } from "./player.model";
-
 export class User {
     
     constructor(

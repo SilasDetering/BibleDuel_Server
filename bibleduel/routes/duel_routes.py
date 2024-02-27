@@ -1,7 +1,7 @@
-from bibleduel.models.duel import Duel
 from bibleduel.service.duel_service import DuelService
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from bibleduel.service.guard_service import GuardService
 
 
 def duel_routes(app, db):
@@ -47,3 +47,10 @@ def duel_routes(app, db):
     def delete_duel(duel_id):
         user_id = get_jwt_identity()
         return duel_service.delete_duel(user_id, duel_id)
+
+    @app.route('/api/duel/count', methods=['GET'])
+    @jwt_required()
+    def get_duel_count():
+        user_id = get_jwt_identity()
+        if GuardService.is_admin(user_id, db):
+            return duel_service.get_duel_count()
