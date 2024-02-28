@@ -47,7 +47,7 @@ jobs:
       - name: Build Angular frontend
         run: |
           cd bibleduel-webapp
-          ng build
+          ng build --prod
           cd ..
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
