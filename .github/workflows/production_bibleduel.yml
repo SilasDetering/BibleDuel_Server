@@ -40,13 +40,13 @@ jobs:
 
       - name: Install node modules
         run: |
-          cd bibelduel-webapp
+          cd bibleduel-webapp
           npm install
           cd ..
 
       - name: Build Angular frontend
         run: |
-          cd bibelduel-webapp
+          cd bibleduel-webapp
           ng build
           cd ..
         
