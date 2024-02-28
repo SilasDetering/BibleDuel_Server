@@ -112,3 +112,4 @@ class PlayerService:
         return jsonify({
             "friends": friends
         }), 200
+      
