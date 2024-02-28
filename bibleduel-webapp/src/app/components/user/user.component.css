@@ -1,0 +1,62 @@
+.menu{
+    display: flex; 
+    justify-content: center;
+    padding: 15px 0 15px 0;
+}
+
+.menu-item{
+    margin-right: 10px;
+}
+
+.menu-search{
+    width: 30%;
+}
+
+.user-list{
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.userCard{
+    display: flex; 
+    justify-content: left;
+    margin: 5px 0 5px 0;
+    padding: 5px 0 5px 10px;
+    text-align: left;
+    color: black;
+
+    border-radius: 5px;
+    background-color: rgb(114, 224, 182);
+}
+
+.userImg{
+    height: 55px;
+    border-radius: 5px;
+    margin: 0 15px 0 0;
+}
+
+.userName{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.userVal{
+    margin: 0 10px 0 0;
+}
+
+.editUserCard{
+    text-align: left;
+}
+
+.editUserActions{
+    text-align: right;
+}
+
+.inputField{
+    background-color: rgb(71, 71, 71);
+    color: white;
+}
+
+.btn-close{
+    float: right;
+}

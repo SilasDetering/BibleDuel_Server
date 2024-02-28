@@ -3,6 +3,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
+
 def auth_routes(app, db):
     auth_service = AuthService(db)
 
@@ -19,12 +20,6 @@ def auth_routes(app, db):
         password = request.json['password']
 
         return auth_service.login(username, password)
-
-    @app.route('/user', methods=['DELETE'])
-    @jwt_required()
-    def delete():
-        user_id = get_jwt_identity()
-        return auth_service.delete_user(user_id)
 
     @app.route('/user', methods=['GET'])
     @jwt_required()

@@ -1,0 +1,4 @@
+<div class="alert flash-message" [class]="message.cssClass" *ngIf="message">
+    <button type="button" class="btn-close x" data-bs-dismiss="alert" (click)="close()"></button>
+    <p class="mb-0"> {{ message.text }} </p>
+</div>

@@ -1,7 +1,7 @@
 from flask import jsonify
 
 
-class Guard:
+class GuardService:
     @staticmethod
     def is_admin(user_id, db):
         user = db["user"].find_one({"_id": user_id})

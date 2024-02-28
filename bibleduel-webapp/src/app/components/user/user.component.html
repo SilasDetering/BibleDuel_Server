@@ -1,0 +1,69 @@
+<div class="block menu mt-4">
+    <div class="form-group menu-item">
+        <select class="form-select" id="exampleSelect1">
+          <option>Alle</option>
+          <option>User</option>
+          <option>Admin</option>
+          <option>Mitwirkend</option>
+        </select>
+    </div>
+
+    <div class="input-group menu-search">
+        <input type="text" class="form-control" placeholder="Benutzer suchen">
+        <button class="btn btn-secondary" type="button" id="button-addon2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<div class="block user-list mt-2">    
+    <div class="userCard mt-1" *ngFor="let user of user_list" (click)="onSelect(user)">
+        <div>
+            <img class="userImg" src="assets/user_pictures/male.jpg">
+        </div>
+        <div>
+            <label class="userName">{{user.username}}</label>
+            <br>
+            <label class="userVal">Score: {{user.score}}</label>
+            <label class="userVal">Role: {{user.role}}</label>
+        </div>
+    </div>
+</div>
+
+<div class="block mt-2 editUserCard" *ngIf="user_selected">
+    <button class="btn btn-close" (click)="user_selected = undefined">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg>
+    </button>
+    <table style="width: 100%;">
+        <tr style="width: 100%;">
+            <td rowspan="2" style="width: 10%;"> 
+                <img style="height: 115px;" src="assets/user_pictures/male.jpg"> 
+            </td>
+            <td style="width: 60%;">
+                <input type="text" class="form-control inputField" placeholder="Benutzername" [(ngModel)]="user_selected.username" id="username" autocomplete="off">
+                <input type="text" class="form-control inputField" placeholder="Score" [(ngModel)]="user_selected.score" id="score" autocomplete="off">
+                <input type="text" class="form-control inputField" placeholder="Role" [(ngModel)]="user_selected.role" autocomplete="off">
+            </td>
+            <td style="width: 20%; text-align: right; vertical-align: bottom;">
+                <button class="btn btn-primary" *ngIf="!user_delete" (click)="onSave()">Speichern 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+                        <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+                        <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                      </svg>
+                </button>
+                <button class="btn btn-danger" (click)="onDelete()" *ngIf="user_delete">wirklich löschen?</button>
+                <br>
+                <button class="btn btn-danger mt-1" (click)="user_delete = user_selected" *ngIf="!user_delete">Löschen
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                      </svg>
+                </button>
+                <button class="btn btn-secondary mt-1" *ngIf="user_delete" (click)="user_delete = undefined">Abbrechen</button>
+            </td>
+        </tr>
+    </table>
+</div>

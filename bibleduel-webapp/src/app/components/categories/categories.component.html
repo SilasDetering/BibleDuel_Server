@@ -1,0 +1,63 @@
+<div class="block menu mt-4">
+    <div class="form-group menu-item">
+        <label class="sort">sortieren</label>
+    </div>
+    <div class="form-group menu-item">
+        <select class="form-select" id="exampleSelect1">
+            <option>Alphabetisch</option>
+            <option>anz. Fragen absteigent</option>
+            <option>anz. Fragen aufsteigent</option>
+        </select>
+    </div>
+</div>
+
+<div class="block categorie-list mt-2">
+    <div class="categorieCard mt-1" *ngFor="let categorie of categorie_list" [style.background-color]="categorie.color" (click)="onSelect(categorie)">
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 90%;" class="categorieTitle">
+                    <label>{{categorie.title}}</label>
+                    <label class="categorieSplit" *ngIf="categorie.subtitle">-</label>
+                    <label class="categorieSubtitle">{{categorie.subtitle}}</label>
+                </td>
+                <td style="width: 10%;" class="categorieNumber">
+                    <label>{{categorie.question_count}}</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="block mt-2" *ngIf="!selected_categorie">
+    <div class="colorPicker" ngx-colors-trigger [(ngModel)]="new_category.color" [style.background-color]="new_category.color"></div>
+    <input type="text" class="form-control inputField mt-2" placeholder="Titel" [(ngModel)]="new_category.title" id="title" autocomplete="off">
+    <input type="text" class="form-control inputField mt-2" placeholder="Beschreibung" [(ngModel)]="new_category.subtitle" id="subtitle" autocomplete="off">
+
+    <button class="btn btn-primary mt-2" (click)="onSaveNewQuestion()" *ngIf="!categorie_delete">Speichern
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+        </svg>
+    </button>
+    <button class="btn btn-secondary mt-2" (click)="abbord_new_category()" style="margin-left: 10px;">Abbrechen</button>
+</div>
+
+<div class="block mt-2" *ngIf="selected_categorie">
+    <div class="colorPicker" ngx-colors-trigger [(ngModel)]="selected_categorie.color" [style.background-color]="selected_categorie.color"></div>
+    <input type="text" class="form-control inputField mt-2" placeholder="Titel" [(ngModel)]="selected_categorie.title" id="title" autocomplete="off">
+    <input type="text" class="form-control inputField mt-2" placeholder="Beschreibung" [(ngModel)]="selected_categorie.subtitle" id="subtitle" autocomplete="off">
+
+    <button class="btn btn-primary mt-2" (click)="onSaveEditQuestion()" *ngIf="!categorie_delete">Speichern
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+        </svg>
+    </button>
+    <button class="btn btn-danger mt-2" (click)="onDelete()" *ngIf="categorie_delete" style="margin-left: 10px;">wirklich löschen?</button>
+    <button class="btn btn-danger mt-2" (click)="categorie_delete = selected_categorie" *ngIf="!categorie_delete" style="margin-left: 10px;">Löschen
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+            <path d="M2.5 5.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5V6h-11v-.5zm1.5 0V14a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V5.5H4zm3-3V2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v.5h-4z"/>
+        </svg>
+    </button>
+    <button class="btn btn-secondary mt-2" (click)="categorie_delete? categorie_delete = undefined: selected_categorie = undefined " style="margin-left: 10px;">Abbrechen</button>
+</div>

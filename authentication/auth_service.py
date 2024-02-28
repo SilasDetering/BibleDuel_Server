@@ -63,17 +63,6 @@ class AuthService:
         else:
             return jsonify({"msg": "Ungültige Anmeldedaten"}), 401
 
-    def delete_user(self, user_id):
-        user = self.db["user"].find_one({"_id": user_id})
-
-        if user:
-            self.db["user"].delete_one({"_id": user_id})
-            return jsonify({"msg": "Benutzer erfolgreich gelöscht"}), 200
-        else:
-            response = jsonify({"msg": "Benutzer konnte nicht gelöscht werden"})
-            response.status_code = 404
-            return response
-
     def refresh(self, user_id):
         user = self.db["user"].find_one({"_id": user_id})
 
