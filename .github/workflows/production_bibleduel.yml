@@ -17,6 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
@@ -29,6 +37,18 @@ jobs:
       
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Install node modules
+        run: |
+          cd bibelduel-webapp
+          npm install
+          cd ..
+
+      - name: Build Angular frontend
+        run: |
+          cd bibelduel-webapp
+          ng build
+          cd ..
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
