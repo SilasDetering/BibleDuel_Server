@@ -30,4 +30,8 @@ export class FlashMessagesComponent implements OnInit, OnDestroy {
       this.subscription.unsubscribe();
     }
   }
+
+  close(){
+    this.message = null;
+  }
 }

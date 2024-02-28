@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgxColorsModule } from 'ngx-colors';
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
@@ -14,6 +16,8 @@ import { QuestionsComponent } from './components/questions/questions.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
+
+import { AdminGuard } from './guarts/admin.guard';
 
 @NgModule({
   declarations: [
@@ -33,8 +37,12 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    NgxColorsModule,
+    BrowserAnimationsModule,
   ],
-  providers: [],
+  providers: [
+    AdminGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

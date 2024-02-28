@@ -13,49 +13,55 @@
 }
 
 .question-list{
-    max-height: 600px;
+    max-height: 800px;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.categorie_header{
+    padding: 5px 0 5px 0;
+    border-radius: 5px;
 }
 
 .questionCard{
-    display: flex; 
-    justify-content: left;
     margin: 5px 0 5px 0;
     padding: 10px 15px 10px 15px;
     text-align: left;
     color: black;
 
     border-radius: 5px;
-    background-color: rgb(92, 92, 92);
+    background-color:rgb(248, 238, 225);
 }
 
 .questionTitle{
     font-size: 22px;
     font-weight: bold;
+    text-align: left;
 }
 
 .questionAuthor{
-    font-size: 22px;
-    margin: 0 0 0 200px;
+    font-size: 20px;
+    text-align: right;
+    width: 30%;
+    vertical-align: bottom;
 }
 
 .questionSrc{
     font-style: italic;
-    background-color: rgb(107, 107, 107);
+    background-color: rgb(207, 207, 207);
     border-radius: 5px;
     padding: 0 12px 0 10px;
+    width: fit-content;
 }
 
 .questionOption{
     padding: 0 0 0 5px;
+    width: 70%;
 }
 
 .correct{
-    background-color: rgb(49, 110, 49);
+    background-color: rgb(174, 228, 174);
     border-radius: 5px;
-}
-
-.question-list{
-    max-height: 600px;
-    overflow-y: auto;
+    width: fit-content;
+    padding: 0 1px 0 0;
 }

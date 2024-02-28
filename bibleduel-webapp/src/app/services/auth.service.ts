@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { User } from '../models/user.model';
 import { FlashMessageService } from './flash-messages.service';
 import { environment } from 'src/enviroments/environment';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -14,6 +15,7 @@ export class AuthService {
   constructor(
     private flashMessage: FlashMessageService,
     private http: HttpClient,
+    private router: Router
   ) { }
 
   authToken: string | null = null;
@@ -24,9 +26,6 @@ export class AuthService {
     let headers = new HttpHeaders();
     headers.append(
       'Content-Type', 'application/json'
-    );
-    headers.append(
-      'App-Version', environment.APP_VERSION
     );
     return this.http.put<any>(
       `${environment.API_URL}/user`,
@@ -40,6 +39,7 @@ export class AuthService {
     this.authToken = null;
     this.user = undefined;
     localStorage.clear();
+    this.router.navigate(['/']);
   }
 
   // Läd das Token access_token aus dem Local Storage

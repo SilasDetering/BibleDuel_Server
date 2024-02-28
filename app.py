@@ -1,6 +1,7 @@
+import os
+
 from flask import Flask, request, jsonify, send_from_directory
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
 from pymongo import MongoClient
 from settings import MONGO_URI, JWT_SECRET, LATEST_APP_VERSION
 
@@ -9,7 +10,7 @@ from bibleduel.routes.player_routes import player_routes
 from bibleduel.routes.duel_routes import duel_routes
 from bibleduel.routes.question_routes import question_routes
 from bibleduel.routes.user_routes import user_routes
-import os
+from bibleduel.routes.categoire_routes import category_routes
 
 # Flask
 app = Flask(__name__, static_folder='./bibleduel-webapp/dist/bibleduel-webapp')
@@ -18,10 +19,7 @@ app.config['JWT_ALGORITHM'] = 'HS256'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False
 jwt = JWTManager(app)
 
-CORS(app)
-
 # Database
-print("Database:" + MONGO_URI)
 mongoDB = MongoClient(MONGO_URI)["bibleduel"]
 
 # Angular Frontend Path
@@ -43,7 +41,8 @@ player_routes(app, mongoDB)
 duel_routes(app, mongoDB)
 question_routes(app, mongoDB)
 user_routes(app, mongoDB)
+category_routes(app, mongoDB)
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(host='0.0.0.0', port=5000)
+    # app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)

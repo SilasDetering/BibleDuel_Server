@@ -5,10 +5,11 @@ export class Category {
         public subtitle: string,
         public author: string,
         public color: string,
+        public question_count: number,
     ) {}
 
     static _fromJSON(data: any): Category {
-        return new Category(data._id, data.title, data.subtitle, data.author, data.color);
+        return new Category(data._id, data.title, data.subtitle, data.author, data.color, data.question_count = 0);
     }
 
     _toDict(): any {
@@ -17,7 +18,8 @@ export class Category {
             title: this.title,
             subtitle: this.subtitle,
             author: this.author,
-            color: this.color
+            color: this.color,
+            question_count: this.question_count,
         };
     }
 }

@@ -2,25 +2,119 @@
     <div class="input-group menu-search">
         <input type="text" class="form-control" placeholder="nach einer Frage oder Autor suchen">
         <button class="btn btn-secondary" type="button" id="button-addon2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" fill="currentColor" class="bi bi-search"
+                viewBox="0 0 16 16">
+                <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
             </svg>
         </button>
     </div>
 </div>
 
 <div class="block question-list mt-2">
-    <div class="questionCard mt-1" *ngFor="let question of question_list">
-        <div>
-            <h6 class="questionTitle">{{question.title}}</h6>
-            <h6 class="questionOption correct">{{question.options[0]}}</h6>
-            <h6 class="questionOption">{{question.options[1]}}</h6>
-            <h6 class="questionOption">{{question.options[2]}}</h6>
-            <h6 class="questionOption">{{question.options[3]}}</h6>
-            <h6 class="questionSrc">{{question.source}}</h6>
+    <div *ngFor="let categorie of categorie_list">
+        <div class="categorie_header" [style.background-color]="categorie.color">
+            <h3 style="margin: 0 0 0 0;">{{categorie.title}}</h3>
+            <h5 style="margin: 0 0 0 0;">{{categorie.subtitle}}</h5>
+            <h5 style="margin: 0 0 0 0;">{{categorie.question_count}}</h5>
         </div>
-        <div>
-            <h6 class="questionAuthor">{{question.author}}</h6>
+        <div *ngFor="let question of question_list">
+            <div class="questionCard mt-1" *ngIf="question.category === categorie._id" (click)="onSelect(question)">
+                <table style="width: 100%;">
+                    <tr>
+                        <td class="questionTitle" colspan="2">
+                            <label>{{question.title}}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="questionOptions">
+                            <h6 class="questionOption correct">{{question.options[0]}}</h6>
+                            <h6 class="questionOption">{{question.options[1]}}</h6>
+                            <h6 class="questionOption">{{question.options[2]}}</h6>
+                            <h6 class="questionOption">{{question.options[3]}}</h6>
+                            <h6 class="questionSrc">{{question.source}}</h6>
+                        </td>
+                        <td class="questionAuthor">
+                            <label>{{getAuthor(question.author)}}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
+</div>
+
+<div class="block question-list mt-3" *ngIf="!selected_question">
+    <h4>Frage hinzufügen</h4>
+
+    <div class="align-left">
+        <label for="question" class="form-label mt-2">Frage</label>
+        <input type="text" class="form-control" id="question" placeholder="Frage" autocomplete="off" [(ngModel)]="new_question.title">
+        
+        <div class="form-group">
+            <label for="exampleSelect1" class="form-label mt-2">Kathegorie</label>
+            <select class="form-select" id="exampleSelect1" [(ngModel)]="new_question.category">
+                <option selected>Wähle eine Kategorie:</option>
+                <option *ngFor="let categorie of categorie_list">{{categorie.title}}</option>
+            </select>
+        </div>
+        
+        <label for="a1" class="form-label mt-2">Antwortmöglichkeiten</label>
+        <input type="text" class="form-control" id="a1" placeholder="Option 1 (Richtige Antwort)" autocomplete="off" [(ngModel)]="new_question.opt1">
+        <input type="text" class="form-control" id="a2" placeholder="Option 2" autocomplete="off" [(ngModel)]="new_question.opt2">
+        <input type="text" class="form-control" id="a3" placeholder="Option 3" autocomplete="off" [(ngModel)]="new_question.opt3">
+        <input type="text" class="form-control" id="a4" placeholder="Option 4" autocomplete="off" [(ngModel)]="new_question.opt4">
+
+        <label for="src" class="form-label mt-2">Quelle</label>
+        <input type="text" class="form-control" id="src" placeholder="Quelle / Bibelstelle (Optional)" autocomplete="off" [(ngModel)]="new_question.src">
+    </div>
+    
+    <button class="btn btn-primary mt-2" (click)="onSaveNewQuestion()">Speichern
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+          </svg>
+    </button>
+</div>
+
+<div class="block question-list mt-3" *ngIf="selected_question">
+    <h4>Frage bearbeiten</h4>
+
+    <div class="align-left">
+
+        <label for="question" class="form-label mt-2">Frage</label>
+        <input type="text" class="form-control" id="question" placeholder="Frage" autocomplete="off" [(ngModel)]="selected_question.title">
+        
+        <div class="form-group">
+            <label for="exampleSelect1" class="form-label mt-2">Kathegorie</label>
+            <select class="form-select" id="exampleSelect1" [(ngModel)]="selected_question.category">
+                <option selected>Wähle eine Kategorie:</option>
+                <option *ngFor="let categorie of categorie_list">{{categorie.title}}</option>
+            </select>
+        </div>
+        
+        <label for="a1" class="form-label mt-2">Antwortmöglichkeiten</label>
+        <input type="text" class="form-control" id="a1" placeholder="Option 1 (Richtige Antwort)" autocomplete="off" [(ngModel)]="selected_question.options[0]">
+        <input type="text" class="form-control" id="a2" placeholder="Option 2" autocomplete="off" [(ngModel)]="selected_question.options[1]">
+        <input type="text" class="form-control" id="a3" placeholder="Option 3" autocomplete="off" [(ngModel)]="selected_question.options[2]">
+        <input type="text" class="form-control" id="a4" placeholder="Option 4" autocomplete="off" [(ngModel)]="selected_question.options[3]">
+
+        <label for="src" class="form-label mt-2">Quelle</label>
+        <input type="text" class="form-control" id="src" placeholder="Quelle / Bibelstelle (Optional)" autocomplete="off" [(ngModel)]="selected_question.source">
+    
+    </div>
+
+    <button class="btn btn-danger mt-2" (click)="onDeleteQuestion(selected_question)">Löschen
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+            <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+          </svg>
+    </button>
+
+    <button class="btn btn-primary mt-2" style="margin-left: 10px;" (click)="onSaveEditQuestion()">Speichern
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
+            <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
+            <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+          </svg>
+    </button>
+    <button class="btn btn-secondary mt-2" (click)="selected_question = undefined" style="margin-left: 10px;">Abbrechen</button>
 </div>
