@@ -18,9 +18,9 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private flashMessage: FlashMessageService,
-    private questionService: QuestionsService,
     private categorieService: CategorieService,
     private duelService: DuelService,
+    private questionService: QuestionsService,
   ) { }
 
   user: User | undefined;
