@@ -23,7 +23,7 @@ export class DuelService {
     });
     
     return this.http.get<any>(
-      `${environment.API_URL}/api/duel/count`, 
+      `${environment.API_URL}/duel/count`, 
       { headers: headers }
     );
   }

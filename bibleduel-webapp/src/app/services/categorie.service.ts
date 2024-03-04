@@ -36,7 +36,7 @@ export class CategorieService {
     });
 
     return this.http.delete<any>(
-      `${environment.API_URL}/api/categories/${id}`,
+      `${environment.API_URL}/categories/${id}`,
       { headers: headers }
     );
   }
@@ -49,7 +49,7 @@ export class CategorieService {
     });
 
     return this.http.post<any>(
-      `${environment.API_URL}/api/categories`,
+      `${environment.API_URL}/categories`,
       categorie,
       { headers: headers }
     );
@@ -63,7 +63,7 @@ export class CategorieService {
     });
 
     return this.http.put<any>(
-      `${environment.API_URL}/api/categories/${categorie._id}`,
+      `${environment.API_URL}/categories/${categorie._id}`,
       categorie,
       { headers: headers }
     );

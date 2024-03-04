@@ -16,10 +16,24 @@ def question_routes(app, db):
 
     @app.route('/questions/<string:question_id>', methods=['GET'])
     @jwt_required()
-    def get_question(question_id):
+    def get_question_2(question_id):
         return question_service.get_question(question_id)
 
     @app.route('/questions', methods=['POST'])
+    @jwt_required()
+    def add_question_2():
+        user_id = get_jwt_identity()
+        if GuardService.is_admin(user_id, db):
+            data = request.json
+            new_question = data.get('question')
+            return question_service.add_question(user_id, new_question)
+
+    @app.route('/api/questions/<string:question_id>', methods=['GET'])
+    @jwt_required()
+    def get_question(question_id):
+        return question_service.get_question(question_id)
+
+    @app.route('/api/questions', methods=['POST'])
     @jwt_required()
     def add_question():
         user_id = get_jwt_identity()
@@ -45,6 +59,14 @@ def question_routes(app, db):
             return question_service.delete_question(question_id)
 
     @app.route('/report', methods=['PUT'])
+    @jwt_required()
+    def report_question_2():
+        user_id = get_jwt_identity()
+        data = request.json
+        report = data.get('report')
+        return question_service.report_question(user_id, report)
+
+    @app.route('/api/report', methods=['PUT'])
     @jwt_required()
     def report_question():
         user_id = get_jwt_identity()

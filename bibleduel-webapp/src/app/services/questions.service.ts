@@ -23,7 +23,7 @@ export class QuestionsService {
     });
     
     return this.http.get<any>(
-      `${environment.API_URL}/api/questions`, 
+      `${environment.API_URL}/questions`, 
       { headers: headers }
     );
   }
@@ -36,7 +36,7 @@ export class QuestionsService {
     });
     
     return this.http.get<any>(
-      `${environment.API_URL}/api/questions/report`, 
+      `${environment.API_URL}/questions/report`, 
       { headers: headers }
     );
   }
@@ -65,7 +65,7 @@ export class QuestionsService {
     });
 
     return this.http.put<any>(
-      `${environment.API_URL}/api/questions/${question._id}`, 
+      `${environment.API_URL}/questions/${question._id}`, 
       { question: question },
       { headers: headers }
     );
@@ -79,7 +79,7 @@ export class QuestionsService {
     });
 
     return this.http.delete<any>(
-      `${environment.API_URL}/api/questions/${question_id}`, 
+      `${environment.API_URL}/questions/${question_id}`, 
       { headers: headers }
     );
   }
@@ -92,7 +92,7 @@ export class QuestionsService {
     });
 
     return this.http.delete<any>(
-      `${environment.API_URL}/api/questions/report/${report_id}`, 
+      `${environment.API_URL}/questions/report/${report_id}`, 
       { headers: headers }
     );
   }

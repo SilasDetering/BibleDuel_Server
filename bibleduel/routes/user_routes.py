@@ -24,6 +24,12 @@ def user_routes(app, db):
 
     @app.route('/user', methods=['DELETE'])
     @jwt_required()
+    def delete_2():
+        user_id = get_jwt_identity()
+        return user_service.delete_user(user_id)
+
+    @app.route('/api/user', methods=['DELETE'])
+    @jwt_required()
     def delete():
         user_id = get_jwt_identity()
         return user_service.delete_user(user_id)
@@ -36,6 +42,11 @@ def user_routes(app, db):
             return user_service.delete_user(user_id)
 
     @app.route('/user/contributors', methods=['GET'])
+    @jwt_required()
+    def get_contributors_2():
+        return user_service.get_contributors()
+
+    @app.route('/api/user/contributors', methods=['GET'])
     @jwt_required()
     def get_contributors():
         return user_service.get_contributors()
