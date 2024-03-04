@@ -10,7 +10,6 @@ def user_routes(app, db):
     @app.route('/api/user', methods=['GET'])
     @jwt_required()
     def get_user_list():
-        print("called")
         user_id = get_jwt_identity()
         if GuardService.is_admin(user_id, db):
             return user_service.get_user_list()

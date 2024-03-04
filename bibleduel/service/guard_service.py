@@ -11,3 +11,13 @@ class GuardService:
         if user["role"] != "admin":
             return jsonify({"error": "User is not admin"}), 403
         return True
+
+    @staticmethod
+    def is_contributor(user_id, db):
+        user = db["user"].find_one({"_id": user_id})
+
+        if user is None:
+            return jsonify({"error": "User not found"}), 404
+        if user["role"] != "contributor" and user["role"] != "admin":
+            return jsonify({"error": "User is not admin"}), 403
+        return True
