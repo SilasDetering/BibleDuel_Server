@@ -53,6 +53,7 @@
     border-radius: 5px;
     padding: 0 12px 0 10px;
     width: fit-content;
+    text-wrap: normal;
 }
 
 .questionOption{
