@@ -58,3 +58,10 @@ def question_routes(app, db):
         user_id = get_jwt_identity()
         if GuardService.is_admin(user_id, db):
             return question_service.get_reports()
+
+    @app.route('/api/questions/report/<string:report_id>', methods=['DELETE'])
+    @jwt_required()
+    def delete_report(report_id):
+        user_id = get_jwt_identity()
+        if GuardService.is_admin(user_id, db):
+            return question_service.delete_report(report_id)

@@ -21,7 +21,7 @@
         <app-statistics 
             [nr_of_users]="user_list.length" 
             [nr_of_contributors]="contributor_list.length"
-            [nr_of_categories]="categorie_list.length"
+            [nr_of_categories]="category_list.length"
             [nr_of_questions]="question_list.length"
             [nr_of_games]="duel_count"
             [nr_of_reports]="reported_questions.length"
@@ -34,17 +34,18 @@
             (refresh)="refresh($event)"
         ></app-user>
     </div>
-    <div class="tab-pane fade active show" id="tab_categories" role="tabpanel" style="margin-top: 10px;">
+    <div class="tab-pane fade" id="tab_categories" role="tabpanel" style="margin-top: 10px;">
         <app-categories 
-            [categorie_list]="categorie_list"
+            [category_list]="category_list"
             (refresh)="refresh($event)"
         ></app-categories>
     </div>
-    <div class="tab-pane fade" id="tab_questions" role="tabpanel" style="margin-top: 10px;">
+    <div class="tab-pane fade active show" id="tab_questions" role="tabpanel" style="margin-top: 10px;">
         <app-questions 
-            [categorie_list]="categorie_list" 
+            [category_list]="category_list" 
             [question_list]="question_list" 
             [user_list]="user_list"
+            [reported_questions]="reported_questions"
             (refresh)="refresh($event)"
         ></app-questions>
     </div>

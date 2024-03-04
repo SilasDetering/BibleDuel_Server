@@ -1,6 +1,6 @@
 <div class="block menu mt-4">
     <div class="form-group menu-item">
-        <select class="form-select" id="exampleSelect1">
+        <select class="form-select" id="filterUser" (change)="onFilter($event)">
           <option>Alle</option>
           <option>User</option>
           <option>Admin</option>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="input-group menu-search">
-        <input type="text" class="form-control" placeholder="Benutzer suchen">
+        <input type="text" class="form-control" placeholder="Benutzer suchen" (change)="searchUser($event)">
         <button class="btn btn-secondary" type="button" id="button-addon2">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="block user-list mt-2">    
-    <div class="userCard mt-1" *ngFor="let user of user_list" (click)="onSelect(user)">
+    <div class="userCard mt-1" *ngFor="let user of filtered_user_list" (click)="onSelect(user)">
         <div>
             <img class="userImg" src="assets/user_pictures/male.jpg">
         </div>

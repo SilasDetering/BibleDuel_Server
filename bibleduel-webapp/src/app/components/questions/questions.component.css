@@ -21,6 +21,7 @@
 .categorie_header{
     padding: 5px 0 5px 0;
     border-radius: 5px;
+    color: black;
 }
 
 .questionCard{
@@ -52,6 +53,7 @@
     border-radius: 5px;
     padding: 0 12px 0 10px;
     width: fit-content;
+    text-wrap: normal;
 }
 
 .questionOption{
@@ -64,4 +66,16 @@
     border-radius: 5px;
     width: fit-content;
     padding: 0 1px 0 0;
+}
+
+.reportCard {
+    background-color: rgba(168, 38, 38, 0.685);
+    padding: 10px 10px 10px 10px;
+    color: white;
+    border-radius: 5px;
+    text-wrap: normal;
+}
+
+.deleteReport{
+    float: right;
 }

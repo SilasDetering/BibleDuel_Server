@@ -20,12 +20,42 @@ export class UserComponent implements OnInit {
 
   user_selected: User | undefined;
   user_delete: User | undefined;
+  filtered_user_list: User[] = [];
 
   ngOnInit() {
+    this.filtered_user_list = this.user_list;
   }
 
   onSelect(user: User) {
     this.user_selected = Object.assign({}, user);
+  }
+
+  searchUser(event: Event): void {
+    const searchTerm = (event.target as HTMLInputElement).value;
+    this.filtered_user_list = this.user_list.filter(user =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  onFilter(event: Event) {
+    const selectedOption = (event.target as HTMLSelectElement).value;
+    switch (selectedOption) {
+      case 'User':
+        this.filtered_user_list = this.user_list.filter(user => user.role === 'user');
+        break;
+      case 'Admin':
+        this.filtered_user_list = this.user_list.filter(user => user.role === 'admin');
+        break;
+      case 'Mitwirkend':
+        this.filtered_user_list = this.user_list.filter(user => user.role === 'contributor');
+        break;
+      case 'Alle':
+      default:
+        console.log(this.user_list)
+        this.filtered_user_list = this.user_list;
+        console.log(this.filtered_user_list)
+        break;
+    }
   }
 
   onSave() {
