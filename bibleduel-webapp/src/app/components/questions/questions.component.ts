@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Category } from 'src/app/models/category.model';
+import { FormControl } from '@angular/forms';
 import { Question } from 'src/app/models/question.model';
 import { CategorieService } from 'src/app/services/categorie.service';
 import { FlashMessageService } from 'src/app/services/flash-messages.service';
 import { QuestionsService } from 'src/app/services/questions.service';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-questions',
@@ -23,6 +25,7 @@ export class QuestionsComponent implements OnInit {
   @Output() refresh = new EventEmitter<boolean>();
 
   selected_question: Question | undefined;
+  searchControl = new FormControl();
 
   new_question = {
     title: null,
@@ -34,7 +37,19 @@ export class QuestionsComponent implements OnInit {
     src: null,
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.searchControl.valueChanges
+      .pipe(debounceTime(400))
+      .subscribe(searchText => {
+        this.filterQuestions(searchText);
+      });
+   }
+
+  filterQuestions(searchText: string) {
+    this.question_list = this.question_list.filter(question =>
+      question.title.toLowerCase().includes(searchText.toLowerCase())
+    );
+  }
 
   onSelect(question: Question) {
     this.selected_question = Object.assign({}, question);

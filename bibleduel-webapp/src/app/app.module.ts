@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxColorsModule } from 'ngx-colors';
 import { AppRoutingModule } from './app-routing.module';
@@ -39,6 +39,7 @@ import { AdminGuard } from './guarts/admin.guard';
     HttpClientModule,
     NgxColorsModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
   ],
   providers: [
     AdminGuard,

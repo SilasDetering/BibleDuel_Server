@@ -17,7 +17,7 @@
 </ul>
 
 <div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade" id="tab_statistics" role="tabpanel" style="margin-top: 10px;">
+    <div class="tab-pane fade active show" id="tab_statistics" role="tabpanel" style="margin-top: 10px;">
         <app-statistics 
             [nr_of_users]="user_list.length" 
             [nr_of_contributors]="contributor_list.length"
@@ -34,7 +34,7 @@
             (refresh)="refresh($event)"
         ></app-user>
     </div>
-    <div class="tab-pane fade active show" id="tab_categories" role="tabpanel" style="margin-top: 10px;">
+    <div class="tab-pane fade" id="tab_categories" role="tabpanel" style="margin-top: 10px;">
         <app-categories 
             [categorie_list]="categorie_list"
             (refresh)="refresh($event)"

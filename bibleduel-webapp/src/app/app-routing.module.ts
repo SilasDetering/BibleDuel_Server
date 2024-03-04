@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard]}
+  { path: 'dashboard', component: DashboardComponent, } // canActivate: [AdminGuard]
 ];
 
 @NgModule({
