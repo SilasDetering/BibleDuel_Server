@@ -9,10 +9,20 @@ def category_routes(app, db):
 
     @app.route('/turn', methods=['GET'])
     @jwt_required()
+    def get_new_turn_data_2():
+        return category_service.get_new_turn_data()
+
+    @app.route('/api/turn', methods=['GET'])
+    @jwt_required()
     def get_new_turn_data():
         return category_service.get_new_turn_data()
 
     @app.route('/categories', methods=['GET'])
+    @jwt_required()
+    def get_list_of_categories_2():
+        return category_service.get_list_of_categories()
+
+    @app.route('/api/categories', methods=['GET'])
     @jwt_required()
     def get_list_of_categories():
         return category_service.get_list_of_categories()

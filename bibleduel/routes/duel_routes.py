@@ -9,19 +9,19 @@ def duel_routes(app, db):
 
     @app.route('/game/duel', methods=['GET'])
     @jwt_required()
-    def get_duel_list():
+    def get_duel_list_2():
         user_id = get_jwt_identity()
         return duel_service.get_duel_list(user_id)
 
     @app.route('/game/duel/<string:duel_id>', methods=['GET'])
     @jwt_required()
-    def get_duel(duel_id):
+    def get_duel_2(duel_id):
         user_id = get_jwt_identity()
         return duel_service.get_duel(duel_id, user_id)
 
     @app.route('/game/duel', methods=['POST'])
     @jwt_required()
-    def create_duel():
+    def create_duel_2():
         user_id = get_jwt_identity()
         data = request.json
         opponent_id = data.get('opponent_id')
@@ -29,11 +29,52 @@ def duel_routes(app, db):
 
     @app.route('/game/duel/random', methods=['POST'])
     @jwt_required()
-    def challenge_random_player():
+    def challenge_random_player_2():
         user_id = get_jwt_identity()
         return duel_service.challenge_random_player(user_id)
 
     @app.route('/game/duel', methods=['PUT'])
+    @jwt_required()
+    def update_duel_2():
+        user_id = get_jwt_identity()
+        data = request.json
+        duel = data.get('duel')
+        print(duel)
+        return duel_service.update_duel(user_id, duel)
+
+    @app.route('/api/game/duel/<string:duel_id>', methods=['DELETE'])
+    @jwt_required()
+    def delete_duel_2(duel_id):
+        user_id = get_jwt_identity()
+        return duel_service.delete_duel(user_id, duel_id)
+
+    @app.route('/api/game/duel', methods=['GET'])
+    @jwt_required()
+    def get_duel_list():
+        user_id = get_jwt_identity()
+        return duel_service.get_duel_list(user_id)
+
+    @app.route('/api/game/duel/<string:duel_id>', methods=['GET'])
+    @jwt_required()
+    def get_duel(duel_id):
+        user_id = get_jwt_identity()
+        return duel_service.get_duel(duel_id, user_id)
+
+    @app.route('/api/game/duel', methods=['POST'])
+    @jwt_required()
+    def create_duel():
+        user_id = get_jwt_identity()
+        data = request.json
+        opponent_id = data.get('opponent_id')
+        return duel_service.create_duel(user_id, opponent_id)
+
+    @app.route('/api/game/duel/random', methods=['POST'])
+    @jwt_required()
+    def challenge_random_player():
+        user_id = get_jwt_identity()
+        return duel_service.challenge_random_player(user_id)
+
+    @app.route('/api/game/duel', methods=['PUT'])
     @jwt_required()
     def update_duel():
         user_id = get_jwt_identity()
@@ -42,7 +83,7 @@ def duel_routes(app, db):
         print(duel)
         return duel_service.update_duel(user_id, duel)
 
-    @app.route('/game/duel/<string:duel_id>', methods=['DELETE'])
+    @app.route('/api/game/duel/<string:duel_id>', methods=['DELETE'])
     @jwt_required()
     def delete_duel(duel_id):
         user_id = get_jwt_identity()

@@ -23,7 +23,7 @@ export class UserService {
     });
     
     return this.http.get<any>(
-      `${environment.API_URL}/api/user`, 
+      `${environment.API_URL}/user`, 
       { headers: headers }
     );
   }
@@ -49,7 +49,7 @@ export class UserService {
     });
     
     return this.http.put<any>(
-      `${environment.API_URL}/api/user/${user_id}`, 
+      `${environment.API_URL}/user/${user_id}`, 
       { new_user_obj },
       { headers: headers }
     );
@@ -63,7 +63,7 @@ export class UserService {
     });
     
     return this.http.delete<any>(
-      `${environment.API_URL}/api/user/${user_id}`, 
+      `${environment.API_URL}/user/${user_id}`, 
       { headers: headers }
     );
   }
