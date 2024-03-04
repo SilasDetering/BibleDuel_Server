@@ -23,7 +23,7 @@ def question_routes(app, db):
     @jwt_required()
     def add_question_2():
         user_id = get_jwt_identity()
-        if GuardService.is_admin(user_id, db):
+        if GuardService.is_contributor(user_id, db):
             data = request.json
             new_question = data.get('question')
             return question_service.add_question(user_id, new_question)
@@ -37,7 +37,7 @@ def question_routes(app, db):
     @jwt_required()
     def add_question():
         user_id = get_jwt_identity()
-        if GuardService.is_admin(user_id, db):
+        if GuardService.is_contributor(user_id, db):
             data = request.json
             new_question = data.get('question')
             return question_service.add_question(user_id, new_question)

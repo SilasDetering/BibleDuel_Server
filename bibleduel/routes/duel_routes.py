@@ -39,7 +39,6 @@ def duel_routes(app, db):
         user_id = get_jwt_identity()
         data = request.json
         duel = data.get('duel')
-        print(duel)
         return duel_service.update_duel(user_id, duel)
 
     @app.route('/api/game/duel/<string:duel_id>', methods=['DELETE'])
@@ -80,7 +79,6 @@ def duel_routes(app, db):
         user_id = get_jwt_identity()
         data = request.json
         duel = data.get('duel')
-        print(duel)
         return duel_service.update_duel(user_id, duel)
 
     @app.route('/api/game/duel/<string:duel_id>', methods=['DELETE'])
