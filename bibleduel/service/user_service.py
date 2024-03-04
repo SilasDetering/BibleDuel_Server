@@ -22,6 +22,8 @@ class UserService:
         user_list = self.db["user"].find()
         user_list = [user for user in user_list]
 
+        print(user_list)
+
         return jsonify({
             "user_list": user_list
         }), 200

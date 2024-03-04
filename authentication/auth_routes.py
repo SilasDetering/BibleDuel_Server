@@ -43,6 +43,8 @@ def auth_routes(app, db):
         new_pw = data.get('new_password')
         return auth_service.change_password(old_pw, new_pw, user_id)
 
+    # neue routes
+
     @app.route('/api/user', methods=['POST'])
     def register():
         username = request.json['username']
@@ -50,14 +52,14 @@ def auth_routes(app, db):
 
         return auth_service.register(username, password)
 
-    @app.route('/api/user', methods=['PUT'])
+    @app.route('/api/auth', methods=['PUT'])
     def login():
         username = request.json['username']
         password = request.json['password']
 
         return auth_service.login(username, password)
 
-    @app.route('/api/user', methods=['GET'])
+    @app.route('/api/refresh', methods=['GET'])
     @jwt_required()
     def refresh():
         user_id = get_jwt_identity()

@@ -28,7 +28,7 @@ export class AuthService {
       'Content-Type', 'application/json'
     );
     return this.http.put<any>(
-      `${environment.API_URL}/user`,
+      `${environment.API_URL}/auth`,
       { username, password },
       { headers: headers }
     )

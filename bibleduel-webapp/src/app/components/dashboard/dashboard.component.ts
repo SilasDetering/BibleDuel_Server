@@ -54,11 +54,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  loaded() {
-    console.log("if loaded")
-    return this.user_list.length > 0 && this.question_list.length > 0 && this.category_list.length > 0 && this.contributor_list.length > 0 && this.reported_questions.length > 0;
-  }
-
   countDuels(){
     this.duelService.countDuels().subscribe({
       next: data => {
@@ -74,6 +69,9 @@ export class DashboardComponent implements OnInit {
     this.userService.getUserList().subscribe({
       next: data => {
         this.user_list = data.user_list;
+        console.log("User-Liste:")
+        console.log(this.user_list)
+        console.log(this.user_list.length)
       },
       error: error => {
         this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
