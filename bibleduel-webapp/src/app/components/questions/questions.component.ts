@@ -19,13 +19,15 @@ export class QuestionsComponent implements OnInit {
     private questionsService: QuestionsService,
   ) { }
 
-  @Input() categorie_list: any[] = [];
+  @Input() category_list: any[] = [];
   @Input() question_list: any[] = [];
   @Input() user_list: any[] = [];
+  @Input() reported_questions: any[] = [];
+
   @Output() refresh = new EventEmitter<boolean>();
 
   selected_question: Question | undefined;
-  searchControl = new FormControl();
+  search_backup: any[] = [];
 
   new_question = {
     title: null,
@@ -38,16 +40,13 @@ export class QuestionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.searchControl.valueChanges
-      .pipe(debounceTime(400))
-      .subscribe(searchText => {
-        this.filterQuestions(searchText);
-      });
-   }
+  }
 
-  filterQuestions(searchText: string) {
+  search(event: Event): void {
+    const searchTerm = (event.target as HTMLInputElement).value;
     this.question_list = this.question_list.filter(question =>
-      question.title.toLowerCase().includes(searchText.toLowerCase())
+      question.title.toLowerCase().includes(searchTerm.toLowerCase() ||
+      this.getAuthor(question.author).toLowerCase().includes(searchTerm.toLowerCase()))
     );
   }
 
@@ -64,7 +63,7 @@ export class QuestionsComponent implements OnInit {
     if (!(this.new_question.title == null || this.new_question.category == null || this.new_question.opt1 == null ||
       this.new_question.opt2 == null || this.new_question.opt3 == null || this.new_question.opt4 == null)) {
 
-      const category = this.categorie_list.find(c => c.title == this.new_question.category);
+      const category = this.category_list.find(c => c.title == this.new_question.category);
       if (!category) {
         this.flashMessage.show('Category not found', { cssClass: 'alert-danger', timeout: 5000 });
       }
@@ -110,7 +109,7 @@ export class QuestionsComponent implements OnInit {
   onSaveEditQuestion() {
 
     if(this.selected_question){
-      this.selected_question.category = this.categorie_list.find(c => c.title == this.selected_question?.category);
+      this.selected_question.category = this.category_list.find(c => c.title == this.selected_question?.category);
 
       this.questionsService.updateQuestion(this.selected_question).subscribe({
         next: data => {
@@ -123,5 +122,16 @@ export class QuestionsComponent implements OnInit {
         }
       });
     }
+  }
+
+  onDeleteReport(report_id: string){
+    this.questionsService.deleteReport(report_id).subscribe({
+      next: data => {
+        this.refresh.emit(true);
+      },
+      error: error => {
+        this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
+      }
+    });
   }
 }

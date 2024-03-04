@@ -83,4 +83,17 @@ export class QuestionsService {
       { headers: headers }
     );
   }
+
+  deleteReport(report_id: string): Observable<any> {
+    this.authService.loadToken();
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.authService.authToken
+    });
+
+    return this.http.delete<any>(
+      `${environment.API_URL}/api/questions/report/${report_id}`, 
+      { headers: headers }
+    );
+  }
 }

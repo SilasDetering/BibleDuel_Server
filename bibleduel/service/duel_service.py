@@ -134,4 +134,5 @@ class DuelService:
             self.db["user"].replace_one({"_id": user_two._id}, user_two.to_dict())
 
     def get_duel_count(self):
-        return self.db["duels"].count_documents({}), 200
+        number_of_duels = self.db["duels"].count_documents({})
+        return jsonify({"duel_count": number_of_duels}), 200

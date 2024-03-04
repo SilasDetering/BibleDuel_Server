@@ -15,7 +15,7 @@ export class CategoriesComponent implements OnInit{
     private flashMessage: FlashMessageService,
   ) { }
 
-  @Input() categorie_list: Category[] = [];
+  @Input() category_list: Category[] = [];
   @Output() refresh = new EventEmitter<boolean>();
 
   categorie_delete: Category | undefined;
@@ -28,6 +28,24 @@ export class CategoriesComponent implements OnInit{
   };
 
   ngOnInit() {
+    this.category_list.sort((a, b) => a.title.localeCompare(b.title));
+  }
+
+  onSort(event: Event) {
+    const selectedOption = (event.target as HTMLSelectElement).value;
+    switch (selectedOption) {
+      case 'Alphabetisch':
+        this.category_list.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'anz. Fragen absteigend':
+        this.category_list.sort((a, b) => b.question_count - a.question_count);
+        break;
+      case 'anz. Fragen aufsteigend':
+        this.category_list.sort((a, b) => a.question_count - b.question_count);
+        break;
+      default:
+        break;
+    }
   }
 
   abbord_new_category(){
@@ -52,7 +70,7 @@ export class CategoriesComponent implements OnInit{
     }
   }
 
-  onSaveNewQuestion(){
+  onSaveNewCategory(){
     if(this.new_category.title && this.new_category.subtitle && this.new_category.color && this.new_category.title != "#505050"){
       const new_category_obj = new Category("0", this.new_category.title, this.new_category.subtitle, "", this.new_category.color, 0);
 
@@ -60,6 +78,7 @@ export class CategoriesComponent implements OnInit{
         next: data => {
           this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});
           this.refresh.emit(true);
+          this.new_category = {title: "", subtitle: "", color: "#505050"};
         },
         error: error => {
           this.flashMessage.show(error.message, {cssClass: 'alert-danger', timeout: 5000});
@@ -70,7 +89,7 @@ export class CategoriesComponent implements OnInit{
     }
   }
 
-  onSaveEditQuestion(){
+  onSaveEditCategory(){
     if(this.selected_categorie && this.selected_categorie.title && this.selected_categorie.subtitle && this.selected_categorie.color && this.selected_categorie.title != "#505050"){
       const new_category_obj = new Category(this.selected_categorie._id, this.selected_categorie.title, this.selected_categorie.subtitle, "", this.selected_categorie.color, 0);
 

@@ -43,6 +43,8 @@ class QuestionService:
     def report_question(self, user_id, report):
         user = self.db["user"].find_one({"_id": user_id})
 
+        report["_id"] = uuid.uuid4().hex
+
         if user is None:
             return jsonify({"error": "User not found"}), 404
 
@@ -58,3 +60,7 @@ class QuestionService:
     def get_reports(self):
         questions = list(self.db["questions"].find({"reports": {"$exists": True, "$not": {"$size": 0}}}))
         return jsonify(questions), 200
+
+    def delete_report(self, report_id):
+        self.db["questions"].update_one({"reports._id": report_id}, {"$pull": {"reports": {"_id": report_id}}})
+        return jsonify({"msg": "Report gelöscht"}), 200

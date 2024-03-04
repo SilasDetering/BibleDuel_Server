@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
 
   user_list: User[] = [];
   question_list: any[] = [];
-  categorie_list: any[] = [];
+  category_list: any[] = [];
   contributor_list: any[] = [];
   reported_questions: any[] = [];
   duel_count: number = 0;
@@ -40,6 +40,7 @@ export class DashboardComponent implements OnInit {
     this.getQuestionList();
     this.getContributors();
     this.getReportedQuestions();
+    this.countDuels();
   }
 
   refresh(event: boolean) {
@@ -49,12 +50,13 @@ export class DashboardComponent implements OnInit {
       this.getQuestionList();
       this.getContributors();
       this.getReportedQuestions();
+      this.countDuels();
     }
   }
 
   loaded() {
     console.log("if loaded")
-    return this.user_list.length > 0 && this.question_list.length > 0 && this.categorie_list.length > 0 && this.contributor_list.length > 0 && this.reported_questions.length > 0;
+    return this.user_list.length > 0 && this.question_list.length > 0 && this.category_list.length > 0 && this.contributor_list.length > 0 && this.reported_questions.length > 0;
   }
 
   countDuels(){
@@ -104,7 +106,7 @@ export class DashboardComponent implements OnInit {
   getCategorieList() {
     this.categorieService.getCategorieList().subscribe({
       next: data => {
-        this.categorie_list = data.categories;
+        this.category_list = data.categories;
       },
       error: error => {
         this.flashMessage.show(error.message, { cssClass: 'alert-danger', timeout: 5000 });
