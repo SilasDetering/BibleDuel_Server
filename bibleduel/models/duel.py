@@ -29,7 +29,7 @@ class Duel:
             self.score[player._id] = 0
 
             for turn in self.turns:
-                player_score = turn.count_correct_answers(player.username)
+                player_score = turn.count_correct_answers(player._id)
                 self.score[player._id] += player_score
         return self.score
 

@@ -63,3 +63,8 @@ def player_routes(app, db):
     def get_friends():
         user_id = get_jwt_identity()
         return player_service.get_friends(user_id)
+
+    @app.route('/api/scoreboard', methods=['GET'])
+    @jwt_required()
+    def get_scoreboard():
+        return player_service.get_scoreboard()

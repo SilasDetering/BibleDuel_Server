@@ -8,7 +8,7 @@ class User:
         self._id = _id if _id is not None else uuid.uuid4().hex
         self.username = username
         self.friends = friends if friends is not None else {}
-        self.score = score if score is not None else 0
+        self.score = int(score) if score is not None else 0
         self.role = role if role is not None else "user"
         self.password = password
         self.salt = salt

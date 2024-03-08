@@ -109,7 +109,12 @@ class PlayerService:
                     {"$unset": {f"friends.{friend_id}": 1}}
                 )
 
-        return jsonify({
-            "friends": friends
-        }), 200
-      
+        return jsonify({"friends": friends}), 200
+
+    def get_scoreboard(self):
+        projection = {"_id": 1, "username": 1, "score": 1}
+        players = self.db["user"].find({}, projection)
+        players = [Player.user_to_player_dict(player) for player in players]
+        players.sort(key=lambda x: int(x["score"]), reverse=True)
+
+        return jsonify({"players": players}), 200

@@ -13,7 +13,7 @@ class CategorieService:
         errno = 0
         turns = []
 
-        while not success and errno < 10:
+        while not success and errno < 20:
             success = True
             turns = []
 
