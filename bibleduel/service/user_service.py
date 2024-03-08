@@ -12,17 +12,16 @@ class UserService:
         contributors = []
         for contributor_id in contributor_ids:
             contributor = self.db["user"].find_one({"_id": contributor_id})
-            if contributor:
+            if contributor and contributor["_id"] != "0af22af81bc247a99b289cadc59d60bf":
                 contributors.append(Player.user_to_player_dict(contributor))
         return jsonify({
             "contributors": contributors
         }), 200
 
     def get_user_list(self):
-        user_list = self.db["user"].find()
+        projection = {"_id": 1, "username": 1, "friends": 1, "score": 1, "role": 1}
+        user_list = self.db["user"].find({}, projection)
         user_list = [user for user in user_list]
-
-        print(user_list)
 
         return jsonify({
             "user_list": user_list

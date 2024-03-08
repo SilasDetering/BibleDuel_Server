@@ -59,7 +59,7 @@ export class UserComponent implements OnInit {
   }
 
   onSave() {
-    if (this.user_selected && this.user_selected.username && this.user_selected.score && this.user_selected.role) {
+    if (this.user_selected && this.user_selected.username && (this.user_selected.score || this.user_selected.score >= 0) && this.user_selected.role) {
 
       const new_user_obj = new User(
         this.user_selected._id,
