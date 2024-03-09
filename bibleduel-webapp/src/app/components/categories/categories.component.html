@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
 <div class="block menu mt-4">
     <div class="form-group menu-item">
         <label class="sort">sortieren</label>
@@ -32,6 +34,7 @@
     <div class="colorPicker" ngx-colors-trigger [(ngModel)]="new_category.color" [style.background-color]="new_category.color"></div>
     <input type="text" class="form-control inputField mt-2" placeholder="Titel" [(ngModel)]="new_category.title" id="title" autocomplete="off">
     <input type="text" class="form-control inputField mt-2" placeholder="Beschreibung" [(ngModel)]="new_category.subtitle" id="subtitle" autocomplete="off">
+    <input type="number" class="form-control inputField mt-2" placeholder="Time" [(ngModel)]="new_category.timelimit" id="subtitle" autocomplete="off">
 
     <button class="btn btn-primary mt-2" (click)="onSaveNewCategory()" *ngIf="!categorie_delete">Speichern
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">
@@ -46,6 +49,7 @@
     <div class="colorPicker" ngx-colors-trigger [(ngModel)]="selected_categorie.color" [style.background-color]="selected_categorie.color"></div>
     <input type="text" class="form-control inputField mt-2" placeholder="Titel" [(ngModel)]="selected_categorie.title" id="title" autocomplete="off">
     <input type="text" class="form-control inputField mt-2" placeholder="Beschreibung" [(ngModel)]="selected_categorie.subtitle" id="subtitle" autocomplete="off">
+    <input type="number" class="form-control inputField mt-2" placeholder="Time" [(ngModel)]="selected_categorie.timelimit" id="subtitle" autocomplete="off">
 
     <button class="btn btn-primary mt-2" (click)="onSaveEditCategory()" *ngIf="!categorie_delete">Speichern
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy-fill" viewBox="0 0 16 16">

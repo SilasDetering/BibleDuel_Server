@@ -6,10 +6,12 @@ export class Category {
         public author: string,
         public color: string,
         public question_count: number,
+        public timelimit: number = 20
     ) {}
 
     static _fromJSON(data: any): Category {
-        return new Category(data._id, data.title, data.subtitle, data.author, data.color, data.question_count = 0);
+        return new Category(data._id, data.title, data.subtitle, data.author, data.color, data.question_count = 0, data.timelimit? data.timelimit : 20);
+
     }
 
     _toDict(): any {
@@ -20,6 +22,7 @@ export class Category {
             author: this.author,
             color: this.color,
             question_count: this.question_count,
+            timelimit: this.timelimit,
         };
     }
 }
