@@ -25,6 +25,7 @@ export class CategoriesComponent implements OnInit{
     title: "",
     subtitle: "",
     color: "#505050",
+    timelimit: 0,
   };
 
   ngOnInit() {
@@ -49,10 +50,11 @@ export class CategoriesComponent implements OnInit{
   }
 
   abbord_new_category(){
-    this.new_category = {title: "", subtitle: "", color: "#505050"};
+    this.new_category = {title: "", subtitle: "", color: "#505050", timelimit: 0};
   }
 
   onSelect(categorie: Category){
+    console.log(this.category_list)
     this.selected_categorie = Object.assign({}, categorie);
   }
 
@@ -78,7 +80,7 @@ export class CategoriesComponent implements OnInit{
         next: data => {
           this.flashMessage.show(data.msg, {cssClass: 'alert-success', timeout: 5000});
           this.refresh.emit(true);
-          this.new_category = {title: "", subtitle: "", color: "#505050"};
+          this.new_category = {title: "", subtitle: "", color: "#505050", timelimit: 0};
         },
         error: error => {
           this.flashMessage.show(error.message, {cssClass: 'alert-danger', timeout: 5000});
