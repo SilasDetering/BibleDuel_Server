@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, request, jsonify, send_from_directory
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
+# from flask_cors import CORS
 from pymongo import MongoClient
 from settings import MONGO_URI, JWT_SECRET, LATEST_APP_VERSION
 
@@ -27,7 +27,7 @@ mongoDB = MongoClient(MONGO_URI)["bibleduel"]
 angular_dist_path = "./bibleduel-webapp/dist/bibleduel-webapp"
 
 
-CORS(app)
+# CORS(app)
 
 # Check App-Version
 # @app.before_request
