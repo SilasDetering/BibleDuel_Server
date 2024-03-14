@@ -118,7 +118,11 @@ class DuelService:
             user_loser.friends[user_winner._id][1] += 1
 
             user_winner.score += 20
-            user_loser.score -= 10
+
+            if(user_loser.score - 10 < 0):
+                user_loser.score = 0
+            else:
+                user_loser.score -= 10
 
             self.db["user"].replace_one({"_id": user_winner._id}, user_winner.to_dict())
             self.db["user"].replace_one({"_id": user_loser._id}, user_loser.to_dict())
