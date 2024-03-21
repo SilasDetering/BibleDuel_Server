@@ -30,21 +30,20 @@ angular_dist_path = "./bibleduel-webapp/dist/bibleduel-webapp"
 # CORS(app)
 
 # Check App-Version
-# @app.before_request
-# def check_app_version():
-#    app_version = request.headers.get('App-Version')
-#    device = request.headers.get('device')
-#
-#    if device == 'ios' or device == 'android':
-#
-#        if app_version is None or app_version == 'undefined':
-#            return jsonify({"msg": "App-Version header is missing"}), 400
-#
-#       app_major, app_minor, app_patch = map(int, app_version.split('.'))
-#        latest_major, latest_minor, latest_patch = map(int, LATEST_APP_VERSION.split('.'))
-#
-#        if app_major != latest_major:
-#            return jsonify({"msg": "Please update the app to the latest version"}), 409
+@app.before_request
+def check_app_version():
+    app_version = request.headers.get('App-Version')
+    device = request.headers.get('device')
+
+    if device == 'ios' or device == 'android':
+        if app_version is None or app_version == 'undefined':
+           return jsonify({"msg": "App-Version header is missing"}), 400
+
+        app_major, app_minor, app_patch = map(int, app_version.split('.'))
+        latest_major, latest_minor, latest_patch = map(int, LATEST_APP_VERSION.split('.'))
+
+        if app_major != latest_major:
+            return jsonify({"msg": "Please update the app to the latest version"}), 409
 
 
 # Angular Webapp

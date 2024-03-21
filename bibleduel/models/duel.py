@@ -10,7 +10,7 @@ class Duel:
     score: dict = {}
 
     def __init__(self, _id: str, players, current_player: int, game_state: int,
-                 turns, current_turn: int, last_edit=None, created_at=None):
+                 turns, current_turn: int, last_edit: datetime = None, created_at: datetime = None):
         self._id = _id
         self.players = players
         self.current_player = current_player

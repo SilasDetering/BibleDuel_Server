@@ -23,7 +23,7 @@ class Turn:
     def to_dict(self):
         return {
             "questions": [question.to_dict() for question in self.questions],
-            "category": self.category.toJSON(),
+            "category": self.category.to_dict(),
             "playerAnswers": dict(self.playerAnswers)
         }
 

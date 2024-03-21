@@ -27,6 +27,7 @@ class QuestionService:
         return jsonify({"msg": "Frage hinzugefügt"}), 200
 
     def edit_question(self, question_id, new_question, user_id):
+        new_question['answer'] = new_question['options'][0]
         new_question['category'] = new_question['category']['_id']
         new_question["author"] = user_id
 
