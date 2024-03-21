@@ -4,6 +4,7 @@ from flask import jsonify
 from bibleduel.models.player import Player
 from bibleduel.models.duel import Duel
 from bibleduel.models.user import User
+from datetime import date, datetime, timedelta
 
 
 class DuelService:
@@ -14,6 +15,29 @@ class DuelService:
     def get_duel_list(self, user_id):
         query = {"players._id": user_id}
         duel_list = list(self.db["duels"].find(query))
+        reload_list = False
+
+        for duel in duel_list:
+            diff = datetime.now() - duel["last_edit"]
+
+            # Laufende Duelle nach 7 Tagen inaktivität löschen
+            if diff > timedelta(days=7):
+                query = {"_id": duel["_id"]}
+                print("delete duel " + duel["_id"] + " because of 7 Days inactivity")
+                self.db["duels"].delete_one(query)
+                reload_list = True
+
+            # Beendete Duelle nach 3 Tagen löschen
+            if duel["game_state"] == 0 or duel["game_state"] == 3:
+                if diff > timedelta(days=3):
+                    query = {"_id": duel["_id"]}
+                    print("delete duel " + duel["_id"] + " because of 3 Days inactivity after finish")
+                    self.db["duels"].delete_one(query)
+                    reload_list = True
+
+        if reload_list:
+            duel_list = list(self.db["duels"].find(query))
+
         return jsonify(duel_list), 200
 
     def get_duel(self, duel_id, user_id):
@@ -50,6 +74,7 @@ class DuelService:
             return jsonify({"error": "No other users found"}), 404
 
         opponent = random.choice(users)
+        print(opponent["username"])
 
         return self.create_duel(user_id, opponent["_id"])
 
@@ -61,8 +86,7 @@ class DuelService:
 
         duel_id = duel_dict["_id"]
         query = {"_id": duel_id}
-        projection = {"created_at": 0, "last_edit": 0}
-        old_duel_dict = self.db["duels"].find_one(query, projection)
+        old_duel_dict = self.db["duels"].find_one(query)
 
         if old_duel_dict is None:
             return jsonify({"error": "Duel not found"}), 404
@@ -76,7 +100,10 @@ class DuelService:
         if old_duel.game_state > 1:
             return jsonify({"error": "Game is over"}), 403
 
-        self.db["duels"].replace_one(query, duel_dict)
+        new_duel.last_edit = datetime.now()
+        new_duel.created_at = old_duel_dict["created_at"]
+
+        self.db["duels"].replace_one(query, new_duel.to_dict())
 
         if new_duel.game_state > 1:
             self.update_stats(new_duel)
@@ -119,7 +146,7 @@ class DuelService:
 
             user_winner.score += 20
 
-            if(user_loser.score - 10 < 0):
+            if (user_loser.score - 10 < 0):
                 user_loser.score = 0
             else:
                 user_loser.score -= 10

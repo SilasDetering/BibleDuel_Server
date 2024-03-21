@@ -26,7 +26,7 @@ class Category:
         return {
             '_id': self._id,
             'title': self.title,
-            'subtitles': self.subtitle,
+            'subtitle': self.subtitle,
             'author': self.author,
             'color': self.color,
             'timelimit': self.timelimit,

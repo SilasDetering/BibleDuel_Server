@@ -8,6 +8,9 @@
       </button>
       <div class="navbar-collapse collapse" id="navbarColor01">
         <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#" [routerLink]="['/about-me']">Über mich</a>
+          </li>
           <li class="nav-item" *ngIf="this.authService.isLoggedIn()">
             <a class="nav-link" href="#" [routerLink]="['/dashboard']">Dashboard</a>
           </li>
