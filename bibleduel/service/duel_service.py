@@ -23,15 +23,13 @@ class DuelService:
             # Laufende Duelle nach 7 Tagen inaktivität löschen
             if diff > timedelta(days=7):
                 query = {"_id": duel["_id"]}
-                print("delete duel " + duel["_id"] + " because of 7 Days inactivity")
                 self.db["duels"].delete_one(query)
                 reload_list = True
 
             # Beendete Duelle nach 3 Tagen löschen
-            if duel["game_state"] == 0 or duel["game_state"] == 3:
+            if duel["game_state"] == 0 or duel["game_state"] == 2:
                 if diff > timedelta(days=3):
                     query = {"_id": duel["_id"]}
-                    print("delete duel " + duel["_id"] + " because of 3 Days inactivity after finish")
                     self.db["duels"].delete_one(query)
                     reload_list = True
 
@@ -74,7 +72,6 @@ class DuelService:
             return jsonify({"error": "No other users found"}), 404
 
         opponent = random.choice(users)
-        print(opponent["username"])
 
         return self.create_duel(user_id, opponent["_id"])
 
