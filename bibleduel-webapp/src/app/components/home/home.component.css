@@ -24,5 +24,13 @@
     margin: 5px 0 0 0;
     font-style: italic;
     font-size: 15px;
+}
+
+.red{
     color: rgb(202, 77, 77);
+}
+
+.version{
+    color: gray;
+    margin-bottom: -18px;
 }
