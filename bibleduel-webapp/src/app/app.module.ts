@@ -18,6 +18,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 
 import { AdminGuard } from './guarts/admin.guard';
+import { ChangelogsComponent } from './components/changelogs/changelogs.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AdminGuard } from './guarts/admin.guard';
     QuestionsComponent,
     CategoriesComponent,
     DashboardComponent,
-    StatisticsComponent,    
+    StatisticsComponent,
+    ChangelogsComponent,  
   ],
   imports: [
     BrowserModule,
