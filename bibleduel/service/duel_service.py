@@ -138,8 +138,12 @@ class DuelService:
             user_loser = User.fromJSON(self.db["user"].find_one({"_id": duel.players[0]._id}))
 
         if user_loser is not None and user_winner is not None:
-            user_winner.friends[user_loser._id][0] += 1
-            user_loser.friends[user_winner._id][1] += 1
+
+            if user_winner.friends.get(user_loser._id):
+                user_winner.friends[user_loser._id][0] += 1
+
+            if user_loser.friends.get(user_winner._id):
+                user_loser.friends[user_winner._id][1] += 1
 
             user_winner.score += 20
 
@@ -155,8 +159,11 @@ class DuelService:
             user_one = User.fromJSON(self.db["user"].find_one({"_id": duel.players[1]._id}))
             user_two = User.fromJSON(self.db["user"].find_one({"_id": duel.players[0]._id}))
 
-            user_one.friends[user_two._id][2] += 1
-            user_two.friends[user_one._id][2] += 1
+            if user_one.friends.get(user_two._id):
+                user_one.friends[user_two._id][2] += 1
+            if user_two.friends.get(user_one._id):
+                user_two.friends[user_one._id][2] += 1
+
             user_one.score += 10
             user_two.score += 10
 
